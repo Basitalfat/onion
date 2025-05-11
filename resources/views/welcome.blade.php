@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>BstApp</title>
+    <title>Maktabiyah</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -46,7 +46,7 @@
             <a href="#" class="logo d-flex align-items-center me-auto">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="assets/img/logo.png" alt=""> -->
-                <h1 class="sitename">BstApp</h1>
+                <h1 class="sitename">Maktabiyah</h1>
             </a>
 
             <nav id="navmenu" class="navmenu">
@@ -76,8 +76,8 @@
                 <div class="row gy-4">
                     <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center"
                         data-aos="fade-up">
-                        <h1>BstApp</h1>
-                        <p>Content Management Sistem</p>
+                        <h1>Maktabiyah</h1>
+                        <p>Sistem Informasi Manajemen Maktabiyah</p>
                         <div class="d-flex">
                             @auth
                                 <a class="btn-get-started" href="{{ route('dashboard') }}">Dashboard</a>
@@ -101,9 +101,9 @@
 
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
-                <span>Tentang Kita<br></span>
-                <h2>Tentang Kita</h2>
-                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+                <span>Maktabiyah<br></span>
+                <h2>Maktabiyah</h2>
+                <p>Maktabiyah merupakan sistem informasi yang mengelola absensi tausiyah</p>
             </div><!-- End Section Title -->
 
             <div class="container">
@@ -111,27 +111,12 @@
                 <div class="row gy-4">
 
                     <div class="col-xl-12 content" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
-                        <p class="fst-italic">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore
-                            magna aliqua.
-                        </p>
+                        <h3>Kelebihan Sistem Maktabiyah</h3>
                         <ul>
-                            <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat.</span></li>
-                            <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit in
-                                    voluptate velit.</span></li>
-                            <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate trideta
-                                    storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
+                            <li><i class="bi bi-check2-all"></i> <span>Dapat mengelola data anggota halaqoh</span></li>
+                            <li><i class="bi bi-check2-all"></i> <span>Dapat menambahkan absensi secara digital</span></li>
+                            <li><i class="bi bi-check2-all"></i> <span>Dapat memantau laporan absensi secara real time</span></li>
                         </ul>
-                        <p>
-                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                            proident
-                        </p>
                     </div>
                 </div>
 
@@ -147,7 +132,7 @@
             <div class="container section-title" data-aos="fade-up">
                 <span>Kontak</span>
                 <h2>Kontak</h2>
-                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+                <p>Ikuti kami di berbagai sosial media</p>
             </div><!-- End Section Title -->
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -161,7 +146,7 @@
                                 <i class="bi bi-geo-alt flex-shrink-0"></i>
                                 <div>
                                     <h3>Address</h3>
-                                    <p>A108 Adam Street, New York, NY 535022</p>
+                                    <p>Puri Kalijaga 2 Residence, Jl. Puri Raya, Kecapi, Harjamukti, Kota Cirebon</p>
                                 </div>
                             </div><!-- End Info Item -->
 
@@ -169,7 +154,7 @@
                                 <i class="bi bi-telephone flex-shrink-0"></i>
                                 <div>
                                     <h3>Call Us</h3>
-                                    <p>+1 5589 55488 55</p>
+                                    <p>+62 813-2445-6029</p>
                                 </div>
                             </div><!-- End Info Item -->
 
@@ -177,7 +162,7 @@
                                 <i class="bi bi-envelope flex-shrink-0"></i>
                                 <div>
                                     <h3>Email Us</h3>
-                                    <p>info@example.com</p>
+                                    <p>maktabiyah@gmail.com</p>
                                 </div>
                             </div><!-- End Info Item -->
 
@@ -200,16 +185,8 @@
     <footer id="footer" class="footer">
 
         <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 sitename">eNno</strong> <span>All Rights Reserved</span>
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Maktabiyah</strong> <span>2025</span>
             </p>
-            <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you've purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a
-                    href=“https://themewagon.com>ThemeWagon
-            </div>
         </div>
 
     </footer>
