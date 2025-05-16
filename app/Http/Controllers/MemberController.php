@@ -6,6 +6,7 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 
@@ -14,7 +15,7 @@ class MemberController extends Controller
     public function index()
     {
         $data = array(
-            "title" => "Data Member",
+            "title" => "Data Umat",
             "menuAdminMember" => "menu-open",
             "member"  => Member::all(),
         );
@@ -52,7 +53,7 @@ class MemberController extends Controller
             
         ]);
 
-        return redirect()->route('member.index')->with('success', 'Member berhasil ditambahkan.');
+        return redirect()->route('member.index')->with('success', 'Umat berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -99,54 +100,59 @@ class MemberController extends Controller
                 
             ]);
         
-        return redirect()->route('member.index')->with('success', 'Member berhasil diupdate.');
+        return redirect()->route('member.index')->with('success', 'Umat berhasil diupdate.');
     }
-
-
 
     public function showImportForm()
     {
-        $data = array(
-            "title" => "Data Member",
-            "menuAdminMember" => "menu-open",
-        );
-        return view('admin.member.import', $data);
+        return view('admin.member.import', [
+            'title' => 'Import Member',
+            'menuAdminMember' => 'menu-open'
+        ]);
     }
-    
+
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,csv',
+            'file' => 'required|file|mimes:xlsx,csv,xls',
         ]);
     
-        if (!$request->hasFile('file')) {
-            return back()->withErrors(['file' => 'Tidak ada file yang diupload.']);
+        $tempPath = storage_path('app/temp');
+        if (!File::exists($tempPath)) {
+            File::makeDirectory($tempPath, 0755, true);
         }
-        dd($request->file('file'));
-        $filePath = $request->file('file')->store('temp');
     
-        SimpleExcelReader::create(storage_path('app/' . $filePath))
-            ->getRows()
-            ->each(function(array $row) {
-                Member::create([
-                    'name'    => $row['name'],
-                    'nas'     => $row['nas'],
-                    'syubah'  => $row['syubah'],
-                    'holaqoh' => $row['holaqoh'],
-                    'farah'   => $row['farah'],
-                ]);
-            });
-
-        return redirect()->route('admin.member.index')->with('success', 'Import berhasil!');
+        $filename = uniqid() . '.' . $request->file('file')->getClientOriginalExtension();
+        $request->file('file')->move($tempPath, $filename);
+    
+        $fullPath = $tempPath . '/' . $filename;
+    
+        try {
+            SimpleExcelReader::create($fullPath)
+                ->getRows()
+                ->each(function (array $row) {
+                    if (
+                        isset($row['name'], $row['nas'], $row['syubah'], $row['holaqoh'], $row['farah'])
+                    ) {
+                        Member::create([
+                            'name'    => $row['name'],
+                            'nas'     => $row['nas'],
+                            'syubah'  => $row['syubah'],
+                            'holaqoh' => $row['holaqoh'],
+                            'farah'   => $row['farah'],
+                        ]);
+                    }
+                });
+    
+            return redirect()->route('member.import.form')->with('success', 'Import berhasil!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['file' => 'Terjadi kesalahan saat membaca file: ' . $e->getMessage()]);
+        }
     }
-
 
     public function destroy($id)
     {
         Member::destroy($id);
         return redirect()->route('member.index')->with('success', 'Data berhasil dihapus!');
     }
-
-    
-
 }

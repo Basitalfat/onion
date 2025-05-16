@@ -15,17 +15,23 @@
 
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn bg-gradient-primary btn-sm mb-2" data-toggle="modal"
-                                    data-target="#modal-member"><i class="fas fa-solid fa-user-plus mr-2"></i>
-                                    <span class="text-bold">Tambah Member</span></a>
-                                <a href="{{ route('memberPdf') }}" class="btn bg-gradient-danger btn-sm mb-2"
-                                    target="_blank"><i class="fas fa-solid fa-file-pdf mr-2"></i>
-                                    <span class="text-bold">Export PDF</span></a>
-                                {{-- <a href="{{ route('member.import.form') }}" class="btn bg-gradient-danger btn-sm mb-2"><i
-                                        class="fas fa-solid fa-file-pdf mr-2"></i>
-                                    <span class="text-bold">Import</span></a> --}}
-                            </div>
+                            <div class="d-flex justify-content-start">
+                                <a href="#" class="btn bg-gradient-primary btn-sm mb-2 mr-2" data-toggle="modal"
+                                    data-target="#modal-member">
+                                    <i class="fas fa-solid fa-user-plus mr-2"></i>
+                                    <span class="text-bold">Tambah Umat</span>
+                                </a>
+                            
+                                <a href="{{ route('member.import.form') }}" class="btn bg-gradient-success btn-sm mb-2 mr-2">
+                                    <i class="fas fa-file-import mr-2"></i>
+                                    <span class="text-bold">Import Umat</span>
+                                </a>
+                            
+                                <a href="{{ route('memberPdf') }}" class="btn bg-gradient-danger btn-sm mb-2" target="_blank">
+                                    <i class="fas fa-solid fa-file-pdf mr-2"></i>
+                                    <span class="text-bold">Export PDF</span>
+                                </a>
+                            </div>                            
 
                             <table id="example1" class="table table-bordered table-striped table-hover">
                                 <thead>

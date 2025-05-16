@@ -33,7 +33,7 @@
     }
 </style>
 
-<h1>Data Member</h1>
+<h1>Data Umat</h1>
 <h3>Tanggal: {{ $tanggal }}</h3>
 <h3>Pukul: {{ $jam }}</h3>
 <hr>

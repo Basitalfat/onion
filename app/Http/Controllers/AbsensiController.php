@@ -87,7 +87,7 @@ class AbsensiController extends Controller
             'ket'          => $validated['ket'],
         ]);
         $tausiyahId = $validated['tausiyah_id'];
-        return redirect()->route('tausiyah.show', $tausiyahId)->with('success', 'umat berhasil ditambahkan.');
+        return redirect()->route('tausiyah.show', $tausiyahId)->with('success', 'Umat berhasil ditambahkan.');
     }
 
     /**

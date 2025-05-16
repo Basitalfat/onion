@@ -40,7 +40,7 @@
                         <div class="inner">
                             <h3>{{ $jumlahMember }}</h3>
 
-                            <p>Jumlah Member</p>
+                            <p>Jumlah Umat</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person"></i>
