@@ -11,7 +11,7 @@ class Member extends Model
         'nas',
         'syubah',
         'holaqoh',
-        'farah',
+        
     ];
     public function absensis()
     {

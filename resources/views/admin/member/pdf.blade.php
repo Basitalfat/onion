@@ -46,7 +46,6 @@
             <th width="30%">Nas</th>
             <th width="20%">Syubah</th>
             <th width="20%">Holaqoh</th>
-            <th width="20%">Farah</th>
         </tr>
     </thead>
     <tbody>
@@ -57,7 +56,6 @@
                 <td>{{ $item->nas }}</td>
                 <td>{{ $item->syubah }}</td>
                 <td>{{ $item->holaqoh }}</td>
-                <td>{{ $item->farah }}</td>
             </tr>
         @endforeach
     </tbody>

@@ -11,7 +11,6 @@ class Tausiyah extends Model
         'tempat',
         'bulan',
         'holaqoh',
-        'farah',
         'user_id',
     ];
         // Relasi ke User

@@ -38,11 +38,7 @@
                             <input name="holaqoh" type="text" class="form-control" id="Holaqoh"
                                 placeholder="Masukan Holaqoh" autocomplete="off" required>
                         </div>
-                        <div class="form-group">
-                            <label for="Farah">Farah :</label>
-                            <input name="farah" type="text" class="form-control" id="Farah"
-                                placeholder="Masukan Farah" autocomplete="off" required>
-                        </div>
+
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

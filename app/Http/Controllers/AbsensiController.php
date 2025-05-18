@@ -51,7 +51,7 @@ class AbsensiController extends Controller
         $query->where('syubah', $syubah);
     })->get();
         $data = array(
-            "title" => "Laporan Absensi Tausiyah",
+            "title" => "Absensi Tausiyah  $syubah",
             "menuSyubahLaporan" => "menu-open",
             "tausiyah"  => $tausiyah,
         );
@@ -99,7 +99,6 @@ class AbsensiController extends Controller
 
         $members = Member::where('syubah', Auth::user()->syubah)
         ->where('holaqoh', $tausiyah->holaqoh)
-        ->where('farah', $tausiyah->farah)
         ->get();
         $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();
         $data = array(

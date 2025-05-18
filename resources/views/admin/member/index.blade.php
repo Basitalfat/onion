@@ -40,7 +40,6 @@
                                         <th>Nas</th>
                                         <th>Syubah</th>
                                         <th>Holaqoh</th>
-                                        <th>Farah</th>
                                         <th>action</th>
                                     </tr>
                                 </thead>
@@ -51,7 +50,6 @@
                                             <td>{{ $item->nas }}</td>
                                             <td>{{ $item->syubah }}</td>
                                             <td>{{ $item->holaqoh }}</td>
-                                            <td>{{ $item->farah }}</td>
                                             <td width="15%">
                                                 <a href="{{ route('member.show', $item->id) }}"
                                                     class="btn btn-outline-info btn-xs">

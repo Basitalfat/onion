@@ -91,14 +91,6 @@
                                                     name="holaqoh">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="farah" class="col-sm-2 col-form-label">Farah</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="farah"
-                                                    placeholder="Farah" value="{{ old('farah', $member->farah) }}"
-                                                    name="farah">
-                                            </div>
-                                        </div>
 
                                         <div class="form-group row">
                                             <div class="offset-sm-2 col-sm-10">

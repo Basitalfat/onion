@@ -41,12 +41,12 @@ class TausiyahController extends Controller
             "pengisi" => 'required|string',
             "tempat" => 'required|string',
             "holaqoh" => 'required|string',
-            "farah" => 'required|string',
+
         ],[
             'pengisi.required'         => 'Pengisi tidak boleh kosong',
             'tempat.required'        => 'Email tidak boleh kosong',
             'holaqoh.required'        => 'Email tidak boleh kosong',
-            'farah.required'        => 'Email tidak boleh kosong',
+
     ]);
 
     Tausiyah::create([
@@ -54,7 +54,6 @@ class TausiyahController extends Controller
         'tempat' => $request->tempat,
         'bulan' => now()->format('d F Y'),
         'holaqoh' => $request->holaqoh,
-        'farah' => $request->farah,
         'user_id' => Auth::id(),
     ]);
 
@@ -70,7 +69,6 @@ class TausiyahController extends Controller
 
         $members = Member::where('syubah', Auth::user()->syubah)
         ->where('holaqoh', $tausiyah->holaqoh)
-        ->where('farah', $tausiyah->farah)
         ->get();
         $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();
         $data = array(

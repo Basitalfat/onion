@@ -29,11 +29,6 @@
                                 placeholder="Masukan Holaqoh" autocomplete="off" required>
                         </div>
 
-                        <div class="form-group">
-                            <label for="farah">Far'ah :</label>
-                            <input name="farah" type="text" class="form-control" id="farah"
-                                placeholder="Masukan Far'ah" autocomplete="off" required>
-                        </div>
 
                     </div>
                     <div class="modal-footer justify-content-between">

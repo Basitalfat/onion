@@ -24,48 +24,84 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-
-                <li class="nav-item {{ $menuAdminDashboard ?? '' }}">
-                    <a href="{{ route('dashboard') }}" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item {{ $menuAdminUser ?? '' }}">
-                    <a href="{{ route('user.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            Pengguna
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item {{ $menuAdminMember ?? '' }}">
-                    <a href="{{ route('member.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Umat
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item {{ $menuMudirTausiyah ?? '' }}">
-                    <a href="{{ route('tausiyah.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Absensi Tausiyah
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item {{ $menuSyubahLaporan ?? '' }}">
-                    <a href="{{ route('absensi.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-book"></i>
-                        <p>
-                            Laporan Tausiyah
-                        </p>
-                    </a>
-                </li>
-
+                @if (Auth::user()->role == 'admin')
+                    <li class="nav-item {{ $menuAdminDashboard ?? '' }}">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ $menuAdminUser ?? '' }}">
+                        <a href="{{ route('user.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Pengguna
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ $menuAdminMember ?? '' }}">
+                        <a href="{{ route('member.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Umat
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ $menuMudirTausiyah ?? '' }}">
+                        <a href="{{ route('tausiyah.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Absensi Tausiyah
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ $menuSyubahLaporan ?? '' }}">
+                        <a href="{{ route('absensi.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Laporan Tausiyah
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth::user()->role == 'syubah')
+                    <li class="nav-item {{ $menuAdminDashboard ?? '' }}">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ $menuSyubahLaporan ?? '' }}">
+                        <a href="{{ route('absensi.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Laporan Tausiyah
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth::user()->role == 'mudir')
+                    <li class="nav-item {{ $menuAdminDashboard ?? '' }}">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ $menuMudirTausiyah ?? '' }}">
+                        <a href="{{ route('tausiyah.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Absensi Tausiyah
+                            </p>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-header mt-4">AKUN</li>
                 <li class="nav-item ">
                     <a href="{{ route('profile.edit') }}" class="nav-link">

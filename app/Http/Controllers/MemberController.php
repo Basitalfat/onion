@@ -33,14 +33,12 @@ class MemberController extends Controller
                 Rule::unique(Member::class, 'nas'),
             ],
             'syubah' => 'required|string',
-            'farah' => 'required|string',
             'holaqoh' => 'required|string|max:10',
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
             'nas.required'        => 'Nas tidak boleh kosong',
             'nas.unique'          => 'Nas sudah terdaftar',
             'syubah.required'          => 'Syubah tidak boleh kosong',
-            'farah.required'          => 'Farah tidak boleh kosong',
             'holaqoh.required'          => 'Holaqoh tidak boleh kosong',
     ]);
 
@@ -48,7 +46,6 @@ class MemberController extends Controller
             'name' => $request->name,
             'nas' => $request->nas,
             'syubah' => $request->syubah,
-            'farah' => $request->farah,
             'holaqoh' => $request->holaqoh,
             
         ]);
@@ -78,7 +75,6 @@ class MemberController extends Controller
             'nas'     => 'required|unique:members,nas,' .$id,
             'syubah'   => 'required|string',
             'holaqoh'   => 'required|string',
-            'farah'   => 'required|string',
             
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
@@ -86,7 +82,6 @@ class MemberController extends Controller
             'nas.unique'          => 'Nas sudah terdaftar',
             'syubah.required'      => 'syubah tidak boleh kosong',
             'holaqoh.required'      => 'holaqoh tidak boleh kosong',
-            'farah.required'      => 'farah tidak boleh kosong',
 
         ]);
         $user = Member::findOrFail($id);
@@ -96,7 +91,6 @@ class MemberController extends Controller
                 'nas' => $request->nas,
                 'syubah' => $request->syubah,
                 'holaqoh' => $request->holaqoh,
-                'farah' => $request->farah,
                 
             ]);
         
@@ -148,6 +142,18 @@ class MemberController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['file' => 'Terjadi kesalahan saat membaca file: ' . $e->getMessage()]);
         }
+        SimpleExcelReader::create(storage_path('app/' . $filePath))
+            ->getRows()
+            ->each(function(array $row) {
+                Member::create([
+                    'name'    => $row['name'],
+                    'nas'     => $row['nas'],
+                    'syubah'  => $row['syubah'],
+                    'holaqoh' => $row['holaqoh'],
+                ]);
+            });
+
+        return redirect()->route('admin.member.index')->with('success', 'Import berhasil!');
     }
 
     public function destroy($id)

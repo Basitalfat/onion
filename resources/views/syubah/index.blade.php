@@ -24,6 +24,7 @@
                                     <tr>
                                         <th>Tausiyah</th>
                                         <th>Waktu</th>
+                                        <th>Holaqoh</th>
                                         <th>Mudir</th>
                                     </tr>
                                 </thead>
@@ -37,6 +38,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->holaqoh }}</td>
                                             <td>
                                                 {{ $item->user->name ?? '-' }}
                                             </td>

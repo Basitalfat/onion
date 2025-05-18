@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('nas');
             $table->enum('syubah', ['AshShidiqqin', 'AsySyuhada', 'AshSholihin', 'AlMutaqien', 'AlMuhsinin', 'AshShobirin']);
             $table->string('holaqoh');
-            $table->string('farah');
             $table->timestamps();
         });
     }

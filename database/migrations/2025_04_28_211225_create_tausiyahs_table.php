@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('tempat');
             $table->string('bulan');
             $table->string('holaqoh');
-            $table->string('farah');
             $table->foreignid('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
