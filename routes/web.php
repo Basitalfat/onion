@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JamiahController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\ProfileController;
@@ -23,6 +24,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
     Route::resource('tausiyah', TausiyahController::class);
     Route::resource('absensi', AbsensiController::class);
     Route::resource('member', MemberController::class);
+    Route::resource('jamiah', JamiahController::class);
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

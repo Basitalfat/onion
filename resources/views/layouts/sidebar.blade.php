@@ -65,6 +65,32 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item {{ $menuJamiahLaporan ?? '' }}">
+                        <a href="{{ route('jamiah.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Rekap Tausiyah
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth::user()->role == 'jamiah')
+                    <li class="nav-item {{ $menuAdminDashboard ?? '' }}">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ $menuJamiahLaporan ?? '' }}">
+                        <a href="{{ route('jamiah.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Rekap Tausiyah
+                            </p>
+                        </a>
+                    </li>
                 @endif
                 @if (Auth::user()->role == 'syubah')
                     <li class="nav-item {{ $menuAdminDashboard ?? '' }}">
