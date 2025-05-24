@@ -24,8 +24,7 @@
                                     <div class="callout callout-info py-3 px-4">
                                         <div class="d-flex justify-content-between mb-2">
                                             <div>
-                                                <strong>H :</strong> {{ $tausiyah->holaqoh }} &nbsp;|&nbsp;
-                                                <strong>F :</strong> {{ $tausiyah->farah }}
+                                                <strong>H :</strong> {{ $tausiyah->holaqoh }}
                                             </div>
                                             <small class="text-muted">
                                                 <i class="far fa-calendar-alt"></i> {{ $tausiyah->bulan }}
@@ -40,6 +39,10 @@
                                             <i class="fas fa-map-marker-alt mr-1"></i>
                                             <strong>Tempat:</strong> {{ $tausiyah->tempat }}
                                         </p>
+                                        <p class="mb-0">
+                                            <i class="fas fa-percentage mr-1"></i>
+                                            <strong>Persentase Absensi:</strong> {{ $persentase_absensi }}%
+                                        </p>                                        
                                     </div>
                                 </div>
                             </div>

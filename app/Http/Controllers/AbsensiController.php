@@ -47,14 +47,14 @@ class AbsensiController extends Controller
         $syubah = Auth::user()->syubah;
 
         $tausiyah = Tausiyah::with('user')
-    ->whereHas('user', function ($query) use ($syubah) {
-        $query->where('syubah', $syubah);
-    })->get();
-        $data = array(
-            "title" => "Absensi Tausiyah  $syubah",
-            "menuSyubahLaporan" => "menu-open",
-            "tausiyah"  => $tausiyah,
-        );
+        ->whereHas('user', function ($query) use ($syubah) {
+            $query->where('syubah', $syubah);
+        })->get();
+            $data = array(
+                "title" => "Absensi Tausiyah",
+                "menuSyubahLaporan" => "menu-open",
+                "tausiyah"  => $tausiyah,
+            );
         return view('syubah.index', $data);
     }
 
@@ -98,17 +98,30 @@ class AbsensiController extends Controller
         $tausiyah = Tausiyah::findOrFail($id);
 
         $members = Member::where('syubah', Auth::user()->syubah)
-        ->where('holaqoh', $tausiyah->holaqoh)
-        ->get();
+            ->where('holaqoh', $tausiyah->holaqoh)
+            ->get();
+
         $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();
+
+        // Hitung jumlah untuk masing-masing status
+        $jumlahIzin = $absensi->where('status', 'izin')->count();
+        $jumlahTanpaKeterangan = $absensi->where('status', 'tanpa_keterangan')->count();
+        $jumlahHadir = $absensi->where('status', 'hadir')->count();
+
+        $jml = $jumlahIzin + $jumlahTanpaKeterangan;
+        $jwh = $jumlahHadir + $jumlahIzin + $jumlahTanpaKeterangan;
+
+        $persentase_absensi = $jwh > 0 ? round(($jml / $jwh) * 100, 2) : 0;
+
         $data = array(
             "title" => "Detail Tausiyah & Kehadiran",
             "menuSyubahLaporan" => "menu-open",
-            "tausiyah"  => $tausiyah,
+            "tausiyah" => $tausiyah,
             "members" => $members,
             "absensi" => $absensi,
+            "persentase_absensi" => $persentase_absensi,
         );
-        
+
         return view('syubah.show', $data);
     }
 

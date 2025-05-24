@@ -24,8 +24,7 @@
                                     <div class="callout callout-info py-3 px-4">
                                         <div class="d-flex justify-content-between mb-2">
                                             <div>
-                                                <strong>H :</strong> {{ $tausiyah->holaqoh }} &nbsp;|&nbsp;
-                                                <strong>F :</strong> {{ $tausiyah->farah }}
+                                                <strong>H :</strong> {{ $tausiyah->holaqoh }}
                                             </div>
                                             <small class="text-muted">
                                                 <i class="far fa-calendar-alt"></i> {{ $tausiyah->bulan }}
