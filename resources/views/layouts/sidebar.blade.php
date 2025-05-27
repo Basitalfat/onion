@@ -65,13 +65,29 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item {{ $menuJamiahLaporan ?? '' }}">
-                        <a href="{{ route('jamiah.index') }}" class="nav-link">
+                    <li class="nav-item has-treeview {{ $menuJamiahLaporan ?? '' }}">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Rekap Tausiyah
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('rekap.perliqo') }}" class="nav-link {{ $subMenuPerLiqo ?? '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Per Liqo</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('rekap.perindividu') }}"
+                                    class="nav-link {{ $subMenuPerIndividu ?? '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Per Individu</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
                 @if (Auth::user()->role == 'jamiah')
@@ -83,13 +99,29 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item {{ $menuJamiahLaporan ?? '' }}">
-                        <a href="{{ route('jamiah.index') }}" class="nav-link">
+                    <li class="nav-item has-treeview {{ $menuJamiahLaporan ?? '' }}">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Rekap Tausiyah
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('rekap.perliqo') }}" class="nav-link {{ $subMenuPerLiqo ?? '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Per Liqo</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('rekap.perindividu') }}"
+                                    class="nav-link {{ $subMenuPerIndividu ?? '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Per Individu</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
                 @if (Auth::user()->role == 'syubah')

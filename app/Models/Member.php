@@ -17,4 +17,9 @@ class Member extends Model
     {
         return $this->hasMany(Absensi::class);
     }
+
+    public function absensiRekap()
+    {
+        return $this->hasMany(AbsensiRekap::class);
+    }
 }
