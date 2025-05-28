@@ -71,7 +71,7 @@
                                         <th>Izin</th>
                                         <th>Tanpa Keterangan</th>
                                         <th>Total Absensi</th>
-                                        <th>Persentase Kehadiran (%)</th>
+                                        <th>Persentase Absensi (%)</th>
                                     </tr>
                                 </thead>
                                 <tbody>

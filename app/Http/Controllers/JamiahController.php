@@ -6,21 +6,49 @@ use App\Models\Member;
 use App\Models\Absensi;
 use App\Models\Tausiyah;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
-
 class JamiahController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function perLiqo()
+    public function index(Request $request)
     {
-        $data = array(
-            "title" => "Rekap Tausiyah",
-            "menuJamiahLaporan" => "menu-open",
-            "tausiyah"  => Tausiyah::all(),
-        );
-        return view('jamiah.index', $data);
+        $syubah = $request->input('syubah');
+
+        $tausiyah = Tausiyah::with('user')
+            ->when($syubah, function ($query) use ($syubah) {
+                $query->whereHas('user', function ($q) use ($syubah) {
+                    $q->where('syubah', $syubah);
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            return view('jamiah.index', [
+                'title' => 'Data Tausiyah',
+                'tausiyah' => $tausiyah
+            ]);
+    }
+
+     public function perLiqo(Request $request)
+    {
+        $syubah = $request->input('syubah');
+
+        $tausiyah = Tausiyah::with('user')
+            ->when($syubah, function ($query) use ($syubah) {
+                $query->whereHas('user', function ($q) use ($syubah) {
+                    $q->where('syubah', $syubah);
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            return view('jamiah.index', [
+                'title' => 'Data Tausiyah',
+                'tausiyah' => $tausiyah
+            ]);
     }
 
     /**
@@ -140,10 +168,12 @@ class JamiahController extends Controller
             $jumlah_hadir = $absensis->where('status', 'hadir')->count();
             $jumlah_izin = $absensis->where('status', 'izin')->count();
             $jumlah_tanpa_keterangan = $absensis->where('status', 'tanpa_keterangan')->count();
-            $total = $jumlah_hadir + $jumlah_izin + $jumlah_tanpa_keterangan;
+            $total = $jumlah_izin + $jumlah_tanpa_keterangan;
+            $jwh = $jumlah_hadir + $jumlah_izin + $jumlah_tanpa_keterangan;
+            $jml = $jumlah_izin + $jumlah_tanpa_keterangan;
 
             // Hitung persentase kehadiran
-            $persentase = $total > 0 ? round(($jumlah_hadir / $total) * 100, 2) : 0;
+            $persentase = $jml > 0 ? round(($jml / $jwh) * 100, 2) : 0;
 
             $rekap[] = [
                 'member' => $member,
@@ -167,5 +197,26 @@ class JamiahController extends Controller
             'filter_syubah' => $syubah,
             'syubahOptions' => $syubahOptions,
         ]);
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $syubah = $request->input('syubah');
+
+        $tausiyah = Tausiyah::with('user')
+            ->when($syubah, function ($query) use ($syubah) {
+                $query->whereHas('user', function ($q) use ($syubah) {
+                    $q->where('syubah', $syubah);
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $pdf = Pdf::loadView('jamiah.export', [
+            'title' => 'Laporan Tausiyah',
+            'tausiyah' => $tausiyah
+        ]);
+        
+        return $pdf->download('laporan_tausiyah.pdf');
     }
 }
