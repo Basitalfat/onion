@@ -9,6 +9,7 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TausiyahController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HolaqohController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
     Route::resource('tausiyah', TausiyahController::class);
     Route::resource('absensi', AbsensiController::class);
     Route::resource('member', MemberController::class);
+    Route::resource('holaqoh', HolaqohController::class);
     Route::resource('jamiah', JamiahController::class);
 
 

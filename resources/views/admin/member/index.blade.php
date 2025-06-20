@@ -36,6 +36,7 @@
                             <table id="example1" class="table table-bordered table-striped table-hover">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>Nama</th>
                                         <th>Nas</th>
                                         <th>Syubah</th>
@@ -44,8 +45,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($member as $item)
+                                    @foreach ($member as $index => $item)
                                         <tr>
+                                            <td>{{ $index + 1 }}</td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->nas }}</td>
                                             <td>{{ $item->syubah }}</td>
