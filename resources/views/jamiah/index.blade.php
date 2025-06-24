@@ -40,9 +40,16 @@
                                     @endforeach
                                 </select>
                                 <button type="submit" class="btn btn-primary mr-2">Filter</button>
+                                <div class="col-auto">
+                                    <a href="{{ route('jamiah.index') }}" class="btn btn-danger no-print">Reset</a>
+                                </div>
 
-                                <a href="{{ route('jamiah.exportPdf', ['syubah' => request('syubah')]) }}"
-                                    class="btn btn-danger">
+                                <a href="{{ route('jamiah.exportPdf', [
+                                    'syubah' => request('syubah'),
+                                    'tahun' => request('tahun'),
+                                    'tahun_hijriah' => request('tahun_hijriah'),
+                                ]) }}"
+                                    class="btn btn-danger ml-2">
                                     <i class="fas fa-file-pdf mr-1"></i> Export PDF
                                 </a>
                             </form>

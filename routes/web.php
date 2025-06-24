@@ -37,7 +37,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
     Route::get('/export-pdf/member', [PDFController::class, 'memberexport'])->name('memberPdf');
     Route::get('/rekap/perliqo', [JamiahController::class, 'perLiqo'])->name('rekap.perliqo');
     Route::get('/rekap/perindividu', [JamiahController::class, 'perIndividu'])->name('rekap.perindividu');
-    Route::get('/jamiah/export-pdf', [JamiahController::class, 'exportPdf'])->name('jamiah.exportPdf');
+    Route::get('/rekap/export-pdf', [JamiahController::class, 'exportPdf'])->name('jamiah.exportPdf');
 });
 
 require __DIR__.'/auth.php';

@@ -59,6 +59,11 @@
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-primary">Filter</button>
                                     </div>
+
+                                    <div class="col-auto">
+                                        <a href="{{ route('rekap.perindividu') }}"
+                                            class="btn btn-danger no-print">Reset</a>
+                                    </div>
                                 </div>
                             </form>
 

@@ -202,21 +202,75 @@ class JamiahController extends Controller
     public function exportPdf(Request $request)
     {
         $syubah = $request->input('syubah');
+        $tahun = $request->input('tahun');
+        $tahun_hijriah = $request->input('tahun_hijriah');
+        $bulan = $request->input('bulan');
 
-        $tausiyah = Tausiyah::with('user')
-            ->when($syubah, function ($query) use ($syubah) {
-                $query->whereHas('user', function ($q) use ($syubah) {
-                    $q->where('syubah', $syubah);
+        $query = Tausiyah::with(['user', 'absensis'])
+            ->when($syubah, function ($q) use ($syubah) {
+                $q->whereHas('user', function ($sub) use ($syubah) {
+                    $sub->where('syubah', $syubah);
                 });
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+            });
+
+        if ($tahun_hijriah) {
+            try {
+                $start = Carbon::createFromFormat('d-m-Y', Hijri::convertToGregorian("01-01-$tahun_hijriah"));
+                $end = Carbon::createFromFormat('d-m-Y', Hijri::convertToGregorian("30-12-$tahun_hijriah"));
+                $query->whereBetween('created_at', [$start, $end]);
+            } catch (\Exception $e) {
+                //
+            }
+        } elseif ($tahun) {
+            $query->whereYear('created_at', $tahun);
+            if ($bulan) {
+                $query->whereMonth('created_at', $bulan);
+            }
+        }
+
+        $tausiyah = $query->get();
+
+        // Hitung rekap absensi per halaqoh
+        $rekap = [];
+
+        foreach ($tausiyah->groupBy('holaqoh') as $holaqoh => $items) {
+            $anggota = Member::where('syubah', $syubah)->where('holaqoh', $holaqoh)->count();
+            $liqo = $items->count();
+
+            $jumlahHadir = 0;
+            $jumlahIzin = 0;
+            $jumlahTanpaKeterangan = 0;
+
+            foreach ($items as $tausiyahItem) {
+                $jumlahHadir += $tausiyahItem->absensis->where('status', 'hadir')->count();
+                $jumlahIzin += $tausiyahItem->absensis->where('status', 'izin')->count();
+                $jumlahTanpaKeterangan += $tausiyahItem->absensis->where('status', 'tanpa_keterangan')->count();
+            }
+
+            $jml = $jumlahIzin + $jumlahTanpaKeterangan;
+            $jwh = $jumlahHadir + $jumlahIzin + $jumlahTanpaKeterangan;
+
+            $persentase = $jwh > 0 ? round(($jml / $jwh) * 100, 2) : 0;
+
+            $rekap[] = [
+                'kode' => $holaqoh,
+                'anggota' => $anggota,
+                'liqo' => $liqo,
+                'jwh' => $jwh,
+                'izin' => $jumlahIzin,
+                'tanpa_ket' => $jumlahTanpaKeterangan,
+                'total_absen' => $jml,
+                'persentase' => $persentase,
+            ];
+        }
 
         $pdf = Pdf::loadView('jamiah.export', [
-            'title' => 'Laporan Tausiyah',
-            'tausiyah' => $tausiyah
+            'rekap' => $rekap,
+            'syubah' => $syubah,
+            'tahun_hijriah' => $tahun_hijriah,
+            'bulan' => $bulan,
         ]);
-        
-        return $pdf->download('laporan_tausiyah.pdf');
+
+        return $pdf->download('ikbhar-syahriah.pdf');
     }
 }
