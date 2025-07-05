@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Holaqoh extends Model
 {
+    protected $table = 'holaqohs';
+    
     protected $fillable = [
         'kode_holaqoh',
         'name',
@@ -19,5 +21,9 @@ class Holaqoh extends Model
     public function absensiRekap()
     {
         return $this->hasMany(AbsensiRekap::class);
+    }
+    public function detailHolaqoh()
+    {
+        return $this->hasMany(DetailHolaqoh::class, 'holaqoh_id');
     }
 }

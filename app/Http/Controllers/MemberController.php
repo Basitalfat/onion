@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailHolaqoh;
+use App\Models\Holaqoh;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,6 +20,8 @@ class MemberController extends Controller
             "title" => "Data Umat",
             "menuAdminMember" => "menu-open",
             "member"  => Member::all(),
+            "detailHolaqoh" => DetailHolaqoh::with(['member', 'halaqoh'])->get(),
+            "holaqoh"  => Holaqoh::all(),
         );
         return view('admin.member.index', $data);
     }
@@ -33,21 +37,17 @@ class MemberController extends Controller
                 Rule::unique(Member::class, 'nas'),
             ],
             'syubah' => 'required|string',
-            'holaqoh' => 'required|string|max:10',
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
             'nas.required'        => 'Nas tidak boleh kosong',
             'nas.unique'          => 'Nas sudah terdaftar',
             'syubah.required'          => 'Syubah tidak boleh kosong',
-            'holaqoh.required'          => 'Holaqoh tidak boleh kosong',
     ]);
 
         Member::create([
             'name' => $request->name,
             'nas' => $request->nas,
             'syubah' => $request->syubah,
-            'holaqoh' => $request->holaqoh,
-            
         ]);
 
         return redirect()->route('member.index')->with('success', 'Umat berhasil ditambahkan.');
@@ -74,14 +74,12 @@ class MemberController extends Controller
             'name'      => 'required',
             'nas'     => 'required|unique:members,nas,' .$id,
             'syubah'   => 'required|string',
-            'holaqoh'   => 'required|string',
             
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
             'nas.required'        => 'Nas tidak boleh kosong',
             'nas.unique'          => 'Nas sudah terdaftar',
             'syubah.required'      => 'syubah tidak boleh kosong',
-            'holaqoh.required'      => 'holaqoh tidak boleh kosong',
 
         ]);
         $user = Member::findOrFail($id);
@@ -90,8 +88,6 @@ class MemberController extends Controller
                 'name' => $request->name,
                 'nas' => $request->nas,
                 'syubah' => $request->syubah,
-                'holaqoh' => $request->holaqoh,
-                
             ]);
         
         return redirect()->route('member.index')->with('success', 'Umat berhasil diupdate.');
@@ -132,7 +128,6 @@ class MemberController extends Controller
                             'name'    => $row['name'],
                             'nas'     => $row['nas'],
                             'syubah'  => $row['syubah'],
-                            'holaqoh' => $row['holaqoh'],
                         ]);
                     }
                 });
@@ -148,7 +143,6 @@ class MemberController extends Controller
                     'name'    => $row['name'],
                     'nas'     => $row['nas'],
                     'syubah'  => $row['syubah'],
-                    'holaqoh' => $row['holaqoh'],
                 ]);
             });
 

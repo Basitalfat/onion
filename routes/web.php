@@ -9,6 +9,7 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TausiyahController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailHolaqohController;
 use App\Http\Controllers\HolaqohController;
 
 Route::get('/', function () {
@@ -38,6 +39,11 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
     Route::get('/rekap/perliqo', [JamiahController::class, 'perLiqo'])->name('rekap.perliqo');
     Route::get('/rekap/perindividu', [JamiahController::class, 'perIndividu'])->name('rekap.perindividu');
     Route::get('/rekap/export-pdf', [JamiahController::class, 'exportPdf'])->name('jamiah.exportPdf');
+
+    Route::get('/detail-halaqoh/{id}', [DetailHolaqohController::class, 'show']);
+    Route::post('/detail-halaqoh', [DetailHolaqohController::class, 'store'])->name('detail-halaqoh.store');
+    Route::get('/api/detail-halaqoh/{id}', [DetailHolaqohController::class, 'show']);
+
 });
 
 require __DIR__.'/auth.php';

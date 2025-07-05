@@ -33,11 +33,6 @@
                                 <option value="AshShobirin"> AshShobirin</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="Holaqoh">Holaqoh :</label>
-                            <input name="holaqoh" type="text" class="form-control" id="Holaqoh"
-                                placeholder="Masukan Holaqoh" autocomplete="off" required>
-                        </div>
 
                     </div>
                     <div class="modal-footer justify-content-between">
