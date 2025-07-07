@@ -58,7 +58,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($absensi as $item)
+                                    @foreach ($absensis as $item)
                                         <tr>
                                             <td>{{ $item->member->name }}</td>
                                             <td>{{ $item->status }}</td>

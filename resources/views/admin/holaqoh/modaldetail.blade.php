@@ -1,8 +1,8 @@
-{{-- <div class="modal fade" id="modal-holaqoh">
+<div class="modal fade" id="modal-holaqoh">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h4 class="modal-title">Tambah {{ $title }}</h4>
+                <h4 class="modal-title">Tambah Umat Pada Holaqoh</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,27 +11,11 @@
                 <form action="{{ route('holaqoh.store') }}" method="POST">
                     @csrf
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="Holaqoh">Kodee Holaqoh :</label>
-                            <input name="kode_holaqoh" type="text" class="form-control" id="Holaqoh"
-                                placeholder="Masukan Holaqoh" autocomplete="off" required>
-                        </div>
+
                         <div class="form-group">
                             <label for="nama">Nama :</label>
                             <input name="name" type="text" class="form-control" id="nama"
                                 placeholder="Masukan Nama" autocomplete="off" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="Syubah">Syubah :</label>
-                            <select class="custom-select" id="Syubah" name="syubah" required>
-                                <option value="" disabled selected>-- Pilih Syubah --</option>
-                                <option value="AshShidiqqin">AshShidiqqin</option>
-                                <option value="AsySyuhada"> AsySyuhada</option>
-                                <option value="AshSholihin"> AshSholihin</option>
-                                <option value="AlMutaqien"> AlMutaqien</option>
-                                <option value="AlMuhsinin"> AlMuhsinin</option>
-                                <option value="AshShobirin"> AshShobirin</option>
-                            </select>
                         </div>
 
                     </div>
@@ -46,7 +30,7 @@
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-</div> --}}
+</div>
 
 {{-- modal dellet --}}
 <div class="modal fade" id="modal-del{{ $item->id }}">

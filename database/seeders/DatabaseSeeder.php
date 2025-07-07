@@ -57,28 +57,28 @@ class DatabaseSeeder extends Seeder
                 "name" => "basit",
                 "nas" => "201223030",
                 "syubah" => "AsySyuhada",
-                "holaqoh" => "001",
+                
             ],
             [
                 "id" => 2,
                 "name" => "panji",
                 "nas" => "201223031",
                 "syubah" => "AsySyuhada",
-                "holaqoh" => "001",
+                
             ],
              [
                 "id" => 3,
                 "name" => "elsa",
                 "nas" => "201223032",
                 "syubah" => "AshShidiqqin",
-                "holaqoh" => "001",
+                
             ],
              [
                 "id" => 4,
                 "name" => "Ardi",
                 "nas" => "201223033",
                 "syubah" => "AshSholihin",
-                "holaqoh" => "001",
+                
             ],
         ]);
     }

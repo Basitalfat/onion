@@ -8,14 +8,14 @@ class DetailHolaqoh extends Model
 {
     protected $table = 'detail_holaqoh';
     
-    protected $fillable = ['member_id', 'holaqoh_id'];
+    protected $fillable = ['member_id', 'holaqoh_id', 'syubah'];
 
     public function member()
     {
         return $this->belongsTo(Member::class, 'member_id');
     }
 
-    public function halaqoh()
+    public function holaqoh()
     {
         return $this->belongsTo(Holaqoh::class, 'holaqoh_id');
     }

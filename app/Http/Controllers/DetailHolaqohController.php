@@ -11,7 +11,7 @@ class DetailHolaqohController extends Controller
 {
     public function show($id)
     {
-        $detail = DetailHolaqoh::with(['member', 'halaqoh'])
+        $detail = DetailHolaqoh::with(['member', 'holaqoh'])
             ->where('member_id', (int) $id)
             ->first();
 
@@ -24,25 +24,32 @@ class DetailHolaqohController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'member_id' => 'required|exists:members,id',
+       
+        $request->validate([
             'holaqoh_id' => 'required|exists:holaqohs,id',
+            'member_id' => 'required|exists:members,id',
         ]);
 
-        \Log::info('Saving detail_halaqoh:', $validated);
+        // Cek apakah member sudah ada di holaqoh ini
+        $exists = DetailHolaqoh::where('holaqoh_id', $request->holaqoh_id)
+            ->where('member_id', $request->member_id)
+            ->exists();
 
-        $detail = DetailHolaqoh::updateOrCreate(
-            ['member_id' => $validated['member_id']],
-            ['holaqoh_id' => $validated['holaqoh_id']]
-        );
-
-        $detail->load(['member', 'halaqoh']);
-
-        return response()->json([
-            'message' => 'Berhasil disimpan',
-            'data' => $detail
+        if ($exists) {
+            return back()->with('warning', 'Member sudah terdaftar di holaqoh ini.');
+        }
+        // ambil syubah dari holaqoh
+        $holaqoh = Holaqoh::findOrFail($request->holaqoh_id);
+        // Simpan ke tabel detail_holaqoh
+        DetailHolaqoh::create([
+            'holaqoh_id' => $request->holaqoh_id,
+            'member_id' => $request->member_id,
+            'syubah'     => $holaqoh->syubah,
         ]);
+
+        return back()->with('success', 'Member berhasil ditambahkan ke holaqoh.');
     }
+    
 
     public function destroy($id)
     {

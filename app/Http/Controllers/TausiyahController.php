@@ -67,16 +67,24 @@ class TausiyahController extends Controller
     {
         $tausiyah = Tausiyah::findOrFail($id);
 
-        $members = Member::where('syubah', Auth::user()->syubah)
-        ->where('holaqoh', $tausiyah->holaqoh)
+        // $members = Member::where('syubah', Auth::user()->syubah)
+        // ->where('holaqoh', $tausiyah->holaqoh)
+        // ->get();
+
+         $absensis = Absensi::with('member')
+        ->whereHas('member', function ($query) use ($tausiyah) {
+            $query->where('syubah', Auth::user()->syubah)
+                  ->where('holaqoh', $tausiyah->holaqoh);
+        })
+        ->where('tausiyah_id', $tausiyah->id)
         ->get();
-        $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();
+        // $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();
         $data = array(
             "title" => "Detail Tausiyah & Kehadiran",
             "menuMudirTausiyah" => "menu-open",
             "tausiyah"  => $tausiyah,
-            "members" => $members,
-            "absensi" => $absensi,
+            "absensis" => $absensis,
+            // "absensi" => $absensi,
         );
         
         return view('mudir.tausiyah.show', $data);

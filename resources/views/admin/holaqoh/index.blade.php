@@ -21,7 +21,7 @@
                                     <i class="fas fa-solid fa-user-plus mr-2"></i>
                                     <span class="text-bold">Tambah Data Halaqoh</span>
                                 </a>
-                            </div>                            
+                            </div>
 
                             <table id="example1" class="table table-bordered table-striped table-hover">
                                 <thead>
@@ -34,7 +34,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no = 1;   
+                                        $no = 1;
                                     @endphp
                                     @foreach ($holaqoh as $item)
                                         <tr>
@@ -87,14 +87,25 @@
                             <div class="form-group">
                                 <label for="Holaqoh">Kode Holaqoh :</label>
                                 <input name="kode_holaqoh" type="text" class="form-control" id="Holaqoh"
-                                placeholder="Masukan Holaqoh" autocomplete="off" required>
+                                    placeholder="Masukan Holaqoh" autocomplete="off" required>
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama :</label>
                                 <input name="name" type="text" class="form-control" id="nama"
                                     placeholder="Masukan Nama" autocomplete="off" required>
                             </div>
-    
+                            <div class="form-group">
+                                <label for="Syubah">Syubah :</label>
+                                <select class="custom-select" id="Syubah" name="syubah" required>
+                                    <option value="" disabled selected>-- Pilih Syubah --</option>
+                                    <option value="AshShidiqqin">AshShidiqqin</option>
+                                    <option value="AsySyuhada"> AsySyuhada</option>
+                                    <option value="AshSholihin"> AshSholihin</option>
+                                    <option value="AlMutaqien"> AlMutaqien</option>
+                                    <option value="AlMuhsinin"> AlMuhsinin</option>
+                                    <option value="AshShobirin"> AshShobirin</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -102,7 +113,7 @@
                         </div>
                     </form>
                 </div>
-    
+
             </div>
             <!-- /.modal-content -->
         </div>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_holaqoh');
             $table->string('name');
+            $table->enum('syubah', ['AshShidiqqin', 'AsySyuhada', 'AshSholihin', 'AlMutaqien', 'AlMuhsinin', 'AshShobirin']);
             $table->timestamps();
         });
     }
