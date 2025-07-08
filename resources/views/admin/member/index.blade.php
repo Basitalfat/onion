@@ -55,8 +55,8 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>
-                                                <a href="#" class="btn-select-umat text-dark" data-id="{{ $item->id }}"
-                                                    data-name="{{ $item->name }}">
+                                                <a href="#" class="btn-select-umat text-dark"
+                                                    data-id="{{ $item->id }}" data-name="{{ $item->name }}">
                                                     {{ $item->name }}
                                                 </a>
                                             </td>

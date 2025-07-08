@@ -50,7 +50,6 @@
                                                     data-target="#modal-del{{ $item->id }}"><i
                                                         class="fas fa-trash m-1"></i>
                                                 </a>
-
                                             </td>
                                         </tr>
                                         @include('admin.holaqoh.modal')

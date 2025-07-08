@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-holaqoh">
+{{-- <div class="modal fade" id="modal-holaqoh">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-info">
@@ -30,14 +30,14 @@
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-</div>
+</div> --}}
 
 {{-- modal dellet --}}
 <div class="modal fade" id="modal-del{{ $item->id }}">
     <div class="modal-dialog modal-s">
         <div class="modal-content">
             <div class="modal-header bg-danger">
-                <h4 class="modal-title">Hapus {{ $title }} ?</h4>
+                <h4 class="modal-title">Hapus umat di holaqoh ?</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -46,18 +46,10 @@
                 <div class="modal-body text-left">
                     <div class="row">
                         <div class="col-6">
-                            Kode Halaqoh
-                        </div>
-                        <div class="col-6">
-                            : {{ $item->kode_holaqoh }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
                             Nama
                         </div>
                         <div class="col-6">
-                            : {{ $item->name }}
+                            : {{ $item->member->name }}
                         </div>
                     </div>
 
@@ -65,7 +57,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <form action="{{ route('holaqoh.destroy', $item->id) }}" method="POST" class="d-inline">
+                    <form action="{{ route('detailholaqoh.destroy', $item->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Hapus Data</button>

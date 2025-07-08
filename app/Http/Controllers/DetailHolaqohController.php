@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\DetailHolaqoh;
 use App\Models\Holaqoh;
 use App\Models\Member;
@@ -51,13 +50,15 @@ class DetailHolaqohController extends Controller
     }
     
 
-    public function destroy($id)
-    {
-        $detail = DetailHolaqoh::where('member_id', $id)->first();
-        if ($detail) {
-            $detail->delete();
-        }
-
-        return response()->json(['message' => 'Berhasil dihapus']);
+public function destroy($id)
+{
+    $detail = DetailHolaqoh::find($id); // tidak pakai OrFail
+    if ($detail) {
+        $detail->delete();
+        return back()->with('success', 'Umat berhasil dihapus.');
     }
+
+    return back()->with('warning', 'Data tidak ditemukan.');
+}
+
 }

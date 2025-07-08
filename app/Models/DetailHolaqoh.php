@@ -15,7 +15,7 @@ class DetailHolaqoh extends Model
         return $this->belongsTo(Member::class, 'member_id');
     }
 
-    public function holaqoh()
+    public function halaqoh()
     {
         return $this->belongsTo(Holaqoh::class, 'holaqoh_id');
     }

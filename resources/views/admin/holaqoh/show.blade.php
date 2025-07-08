@@ -89,9 +89,14 @@
                                         <tr>
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $item->member->name }}</td>
-                                            <td></td>
+                                            <td width="15%">
+                                                <a href="#" class="btn btn-outline-danger btn-xs" data-toggle="modal"
+                                                    data-target="#modal-del{{ $item->id }}"><i
+                                                        class="fas fa-trash m-1"></i>
+                                                </a>
+                                            </td>
                                         </tr>
-                                        @include('admin.holaqoh.modal')
+                                        @include('admin.holaqoh.modaldetail')
                                     @endforeach
                                 </tbody>
                             </table>
