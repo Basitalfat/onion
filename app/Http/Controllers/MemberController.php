@@ -55,10 +55,13 @@ class MemberController extends Controller
 
     public function show($id)
     {
+        $member = Member::with('halaqohs')->findOrFail($id);
+
         $data = array(
             "title" => "Detail User",
             "menuAdminMember" => "menu-open",
-            "member"  => Member::findOrFail($id),
+            "member" => $member,
+            'holaqohs' => Holaqoh::all(),
         );
         return view('admin.member.show', $data);
     }
@@ -74,7 +77,7 @@ class MemberController extends Controller
             'name'      => 'required',
             'nas'     => 'required|unique:members,nas,' .$id,
             'syubah'   => 'required|string',
-            
+            'holaqoh_id' => 'array',
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
             'nas.required'        => 'Nas tidak boleh kosong',

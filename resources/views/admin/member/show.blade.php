@@ -87,8 +87,8 @@
                                             <label for="holaqoh" class="col-sm-2 col-form-label">Holaqoh</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="holaqoh"
-                                                    placeholder="Holaqoh" value="{{ old('holaqoh', $member->holaqoh) }}"
-                                                    name="holaqoh">
+                                                    value="{{ $member->halaqohs->pluck('kode_holaqoh')->implode(', ') ?: 'Belum dipilih' }}"
+                                                    readonly>
                                             </div>
                                         </div>
 

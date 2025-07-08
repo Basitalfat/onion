@@ -21,8 +21,19 @@ class Member extends Model
     {
         return $this->hasMany(AbsensiRekap::class);
     }
+
     public function detailHolaqoh()
     {
         return $this->hasMany(DetailHolaqoh::class);
+    }
+
+    public function halaqohs()
+    {
+        return $this->belongsToMany(
+            Holaqoh::class,        // model tujuan
+            'detail_holaqoh',      // nama tabel pivot
+            'member_id',           // FK di pivot ke model ini
+            'holaqoh_id'           // FK ke model tujuan
+        );
     }
 }
