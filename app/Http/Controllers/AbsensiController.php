@@ -98,7 +98,11 @@ class AbsensiController extends Controller
         $tausiyah = Tausiyah::findOrFail($id);
 
         $members = Member::where('syubah', Auth::user()->syubah)
-            ->where('holaqoh', $tausiyah->holaqoh)
+            ->whereIn('id', function ($q) use ($tausiyah) {
+                $q->select('member_id')
+                ->from('detail_halaqoh') // Ganti sesuai nama tabel yang benar
+                ->where('holaqoh_id', $tausiyah->holaqoh_id);
+            })
             ->get();
 
         $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();

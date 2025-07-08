@@ -93,18 +93,6 @@
                                 <input name="name" type="text" class="form-control" id="nama"
                                     placeholder="Masukan Nama" autocomplete="off" required>
                             </div>
-                            <div class="form-group">
-                                <label for="Syubah">Syubah :</label>
-                                <select class="custom-select" id="Syubah" name="syubah" required>
-                                    <option value="" disabled selected>-- Pilih Syubah --</option>
-                                    <option value="AshShidiqqin">AshShidiqqin</option>
-                                    <option value="AsySyuhada"> AsySyuhada</option>
-                                    <option value="AshSholihin"> AshSholihin</option>
-                                    <option value="AlMutaqien"> AlMutaqien</option>
-                                    <option value="AlMuhsinin"> AlMuhsinin</option>
-                                    <option value="AshShobirin"> AshShobirin</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

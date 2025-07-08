@@ -12,21 +12,45 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
+                            <label for="tanggal">Tanggal :</label>
+                            <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}"
+                                required>
+                        </div>
+
+                        <div class="form-group">
                             <label for="pengisi">Pengisi :</label>
-                            <input name="pengisi" type="text" class="form-control" id="pengisi"
-                                placeholder="Masukan Pengisi" autocomplete="off" required>
+                            <input type="text" name="pengisi" class="form-control" value="{{ old('pengisi') }}"
+                                required>
                         </div>
 
                         <div class="form-group">
                             <label for="tempat">Tempat :</label>
-                            <input name="tempat" type="text" class="form-control" id="tempat"
-                                placeholder="Masukan Tempat" autocomplete="off" required>
+                            <input type="text" name="tempat" class="form-control" value="{{ old('tempat') }}"
+                                required>
                         </div>
 
                         <div class="form-group">
-                            <label for="holaqoh">Holaqoh :</label>
-                            <input name="holaqoh" type="text" class="form-control" id="holaqoh"
-                                placeholder="Masukan Holaqoh" autocomplete="off" required>
+                            <label for="holaqoh_id">Halaqoh</label>
+                            <select name="holaqoh_id" class="form-control" required>
+                                <option value="">-- Pilih Halaqoh --</option>
+                                @foreach ($holaqohs as $holaqoh)
+                                    <option value="{{ $holaqoh->id }}"
+                                        {{ old('holaqoh_id') == $holaqoh->id ? 'selected' : '' }}>
+                                        {{ $holaqoh->kode_holaqoh }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="media">Media</label>
+                            <select name="media" class="form-control" required>
+                                <option value="">-- Pilih Media --</option>
+                                <option value="offline" {{ old('media') == 'offline' ? 'selected' : '' }}>Offline
+                                </option>
+                                <option value="online" {{ old('media') == 'online' ? 'selected' : '' }}>Online</option>
+                                <option value="hybrid" {{ old('media') == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
+                            </select>
                         </div>
 
 

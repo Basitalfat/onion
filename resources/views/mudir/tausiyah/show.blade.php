@@ -24,7 +24,7 @@
                                     <div class="callout callout-info py-3 px-4">
                                         <div class="d-flex justify-content-between mb-2">
                                             <div>
-                                                <strong>H :</strong> {{ $tausiyah->holaqoh }}
+                                                <strong>H :</strong> {{ $tausiyah->holaqoh->kode_holaqoh ?? '-' }}
                                             </div>
                                             <small class="text-muted">
                                                 <i class="far fa-calendar-alt"></i> {{ $tausiyah->bulan }}
@@ -58,14 +58,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($absensis as $item)
+                                    @forelse ($members as $member)
+                                        @php
+                                            $absen = $absensis->firstWhere('member_id', $member->id);
+                                        @endphp
                                         <tr>
-                                            <td>{{ $item->member->name }}</td>
-                                            <td>{{ $item->status }}</td>
-                                            <td>{{ $item->ket }}</td>
+                                            <td>{{ $member->name }}</td>
+                                            <td>{{ $absen->status ?? '-' }}</td>
+                                            <td>{{ $absen->ket ?? '-' }}</td>
                                         </tr>
-                                    @endforeach
-
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center">Belum ada anggota di halaqoh ini.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

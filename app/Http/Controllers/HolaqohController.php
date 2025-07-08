@@ -29,17 +29,14 @@ class HolaqohController extends Controller
         $request->validate([
             'kode_holaqoh' => 'required|string|max:10',
             'name' => 'required|string|max:255',
-            'syubah' => 'required|string',
         ],[
             'kode_holaqoh.required'          => 'Holaqoh tidak boleh kosong',
             'name.required'         => 'Nama tidak boleh kosong',
-            'syubah.required'          => 'Syubah tidak boleh kosong',
     ]);
 
         Holaqoh::create([
             'kode_holaqoh' => $request->kode_holaqoh,
             'name' => $request->name,
-            'syubah' => $request->syubah,
             
         ]);
 

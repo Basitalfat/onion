@@ -39,7 +39,7 @@
                                             <td>
                                                 <a href="{{ route('tausiyah.show', $item->id) }}"
                                                     class="d-block text-decoration-none text-dark">
-                                                    {{ $item->pengisi }} | {{ $item->tempat }} | {{ $item->bulan }}
+                                                    {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }} | {{ $item->holaqoh->kode_holaqoh ?? '-' }} | {{ $item->pengisi }} | {{ $item->tempat }} | {{ ucfirst($item->media) }}
                                                 </a>
                                             </td>
                                             <td width="15%">
@@ -53,7 +53,7 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                        @include('mudir.tausiyah.modal_dell')
+                                        @include('mudir.tausiyah.modal_dell', ['holaqohs' => $holaqohs])
                                     @endforeach
                                 </tbody>
                             </table>

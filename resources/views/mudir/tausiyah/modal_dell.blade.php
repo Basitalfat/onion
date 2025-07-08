@@ -11,6 +11,11 @@
             <div class="modal-body">
                 <div class="modal-body text-left">
                     <div class="row">
+                        <div class="col-6">Tanggal</div>
+                        <div class="col-6">: {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-6">
                             Pengisi
                         </div>
@@ -27,12 +32,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                            Waktu
+                        <div class="col-6">Halaqoh</div>
+                        <div class="col-6">: {{ $item->holaqoh->kode_holaqoh ?? '-' }} -
+                            {{ $item->holaqoh->name ?? '' }}
                         </div>
-                        <div class="col-6">
-                            : {{ $item->bulan }}
-                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">Media</div>
+                        <div class="col-6">: {{ ucfirst($item->media) }}</div>
                     </div>
 
                 </div>
