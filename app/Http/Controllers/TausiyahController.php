@@ -8,6 +8,7 @@ use App\Models\Absensi;
 use App\Models\Holaqoh;
 use App\Models\Tausiyah;
 use Illuminate\Http\Request;
+use App\Models\DetailHolaqoh;
 use Illuminate\Support\Facades\Auth;
 
 class TausiyahController extends Controller
@@ -61,57 +62,57 @@ class TausiyahController extends Controller
 
     ]);
 
-    Tausiyah::create([
-        'tanggal' => $request->tanggal,
+    $tausiyah = Tausiyah::create([
         'pengisi' => $request->pengisi,
         'tempat' => $request->tempat,
-        'bulan' => now()->format('d F Y'),
+        'bulan' => $request->tanggal,
         'holaqoh_id' => $request->holaqoh_id,
         'media' => $request->media,
         'user_id' => Auth::id(),
     ]);
+        // Ambil semua member_id dari detail_holaqoh berdasarkan holaqoh_id
+    $memberIds = DetailHolaqoh::where('holaqoh_id', $request->holaqoh_id)
+        ->pluck('member_id');
 
-    return redirect()->route('tausiyah.index')->with('success', 'Tausiyah berhasil ditambahkan.');
+         // Buat data absensi untuk masing-masing member
+    $absensiData = [];
+    foreach ($memberIds as $memberId) {
+        $absensiData[] = [
+            'tausiyah_id' => $tausiyah->id,
+            'member_id'   => $memberId,
+            'status'   => 'hadir',
+            'ket'   => 'hadir',
+            'created_at'  => now(),
+            'updated_at'  => now(),
+        ];
     }
+       // Masukkan semuanya sekaligus
+    Absensi::insert($absensiData);
+    return redirect()->route('tausiyah.index')->with('success', 'Tausiyah dan data absensi berhasil ditambahkan.');
+}
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        $tausiyah = Tausiyah::findOrFail($id);
+{
+    $tausiyah = Tausiyah::findOrFail($id);
 
-        $members = Member::where('syubah', Auth::user()->syubah)
-            ->whereIn('id', function ($q) use ($tausiyah) {
-                $q->select('member_id')
-                    ->from('detail_holaqoh')
-                    ->where('holaqoh_id', $tausiyah->holaqoh_id);
-            })
-            ->get();
+    // Ambil absensi lengkap dengan data member (filtered by syubah)
+        $absensis = Absensi::with('member')
+    ->where('tausiyah_id', $tausiyah->id)
+    ->get();
 
-         $absensis = Absensi::with('member')
-            ->whereHas('member', function ($query) use ($tausiyah) {
-                $query->where('syubah', Auth::user()->syubah)
-                ->whereIn('id', function ($q) use ($tausiyah) {
-                    $q->select('member_id')
-                    ->from('detail_holaqoh')
-                    ->where('holaqoh_id', $tausiyah->holaqoh_id);
-                });
-        })
-        ->where('tausiyah_id', $tausiyah->id)
-        ->get();
-        
-        // $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();
-        $data = array(
-            "title" => "Detail Tausiyah & Kehadiran",
-            "menuMudirTausiyah" => "menu-open",
-            "tausiyah"  => $tausiyah,
-            "absensis" => $absensis,
-            "members" => $members,
-        );
-        
-        return view('mudir.tausiyah.show', $data);
-    }
+
+    $data = [
+        "title" => "Detail Tausiyah & Kehadiran",
+        "menuMudirTausiyah" => "menu-open",
+        "tausiyah" => $tausiyah,
+        "absensis" => $absensis,
+    ];
+
+    return view('mudir.tausiyah.show', $data);
+}
 
     /**
      * Show the form for editing the specified resource.

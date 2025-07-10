@@ -39,7 +39,9 @@
                                             <td>
                                                 <a href="{{ route('tausiyah.show', $item->id) }}"
                                                     class="d-block text-decoration-none text-dark">
-                                                    {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }} | {{ $item->holaqoh->kode_holaqoh ?? '-' }} | {{ $item->pengisi }} | {{ $item->tempat }} | {{ ucfirst($item->media) }}
+                                                    {{ $item->bulan }} |
+                                                    {{ $item->holaqoh->kode_holaqoh ?? '-' }} | {{ $item->pengisi }} |
+                                                    {{ $item->tempat }} | {{ ucfirst($item->media) }}
                                                 </a>
                                             </td>
                                             <td width="15%">

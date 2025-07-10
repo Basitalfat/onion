@@ -134,7 +134,7 @@ class AbsensiController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
@@ -142,7 +142,12 @@ class AbsensiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+            $absen = Absensi::findOrFail($id);
+            $absen->status = $request->status;
+            $absen->ket = $request->ket;
+            $absen->save();
+
+    return redirect()->back()->with('success', 'Data berhasil diperbarui!');
     }
 
     /**

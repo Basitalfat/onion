@@ -43,35 +43,30 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn bg-gradient-primary btn-sm mb-2" data-toggle="modal"
-                                    data-target="#modal-tausiyah"><i class="fas fa-solid fa-user-plus mr-2"></i>
-                                    <span class="text-bold">Tambah Absensi</span></a>
-                            </div>
-
                             <table id="example1" class="table table-bordered table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
                                         <th>Status</th>
                                         <th>Keterangan</th>
+                                        <th width="15%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($members as $member)
-                                        @php
-                                            $absen = $absensis->firstWhere('member_id', $member->id);
-                                        @endphp
+                                    @foreach ($absensis as $absen)
                                         <tr>
-                                            <td>{{ $member->name }}</td>
+                                            <td>{{ $absen->member['name'] ?? '-' }}</td>
                                             <td>{{ $absen->status ?? '-' }}</td>
                                             <td>{{ $absen->ket ?? '-' }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-outline-info btn-xs" data-toggle="modal"
+                                                    data-target="#modal-edit{{ $absen->id }}"><i
+                                                        class="fas fa-edit m-1"></i>
+                                                </a>
+                                            </td>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="3" class="text-center">Belum ada anggota di halaqoh ini.</td>
-                                        </tr>
-                                    @endforelse
+                                        @include('mudir.tausiyah.modal_absen')
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -87,5 +82,4 @@
     </section>
     <!-- /.content -->
     </div>
-    @include('mudir.tausiyah.modal_absen')
 @endsection

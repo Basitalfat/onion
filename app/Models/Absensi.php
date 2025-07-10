@@ -13,12 +13,12 @@ class Absensi extends Model
         'tausiyah_id',
     ];
     public function member()
-    {
-        return $this->belongsTo(Member::class);
-    }
+{
+    return $this->belongsTo(Member::class, 'member_id'); // tambahkan 'member_id'
+}
 
-    public function tausiyah()
-    {
-        return $this->belongsTo(Tausiyah::class);
-    }
+public function tausiyah()
+{
+    return $this->belongsTo(Tausiyah::class, 'tausiyah_id'); // tambahkan 'tausiyah_id'
+}
 }
