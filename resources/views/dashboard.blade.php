@@ -2,90 +2,149 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>{{ $jumlahAdmin }}</h3>
-                            <p>admin</p>
+        @if (Auth::user()->role == 'admin')
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{ $jumlahAdmin }}</h3>
+                                <p>admin</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-person"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{ $jumlahPengguna }}</h3>
+                                <p>Jumlah Pengguna</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-secondary">
+                            <div class="inner">
+                                <h3>{{ $jumlahMember }}</h3>
+                                <p>Jumlah Umat</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+
+                    <!-- ./col -->
                 </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>{{ $jumlahPengguna }}</h3>
+                <!-- /.row -->
+                <!-- Main row -->
 
-                            <p>Jumlah Pengguna</p>
+                <div class="row">
+                    <!-- Chart Pie Admin vs Pengguna -->
+                    <section class="col-lg-6 connectedSortable">
+                        <div class="card">
+                            <div class="card-header bg-info">
+                                <h3 class="card-title">Diagram Admin vs Pengguna</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="userChart" width="400" height="400"></canvas>
+                            </div>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-person"></i>
+                    </section>
+
+                    <!-- Chart Line Pengguna per Hari -->
+                    <section class="col-lg-6 connectedSortable">
+                        <div class="card">
+                            <div class="card-header bg-success">
+                                <h3 class="card-title">User per Hari</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="userPerhari" width="400" height="400"></canvas>
+                            </div>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
+                    </section>
                 </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-secondary">
-                        <div class="inner">
-                            <h3>{{ $jumlahMember }}</h3>
-
-                            <p>Jumlah Umat</p>
+        @endif
+        <!-- /.row (main row) -->
+        @if (in_array(Auth::user()->role, ['mudir', 'jamiah', 'syubah']))
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-info shadow">
+                            <div class="icon">
+                                <i class="ion ion-person"></i>
+                            </div>
+                            <div class="inner">
+                                <h4 class="fw-bold"><i class="ion ion-person-add"></i> Absensi</h4>
+                            </div>
+                            <a href="{{ route('tausiyah.index') }}" class="small-box-footer">
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-person"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
+
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning shadow">
+                            <div class="inner">
+                                <h4 class="fw-bold"><i class="ion ion-stats-bars"></i> Tausiyah</h4>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success shadow">
+                            <div class="inner">
+                                <h4 class="fw-bold"><i class="ion ion-pie-graph"></i> Halaqoh</h4>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-secondary shadow">
+                            <div class="inner">
+                                <h4 class="fw-bold"><i class="ion ion-person"></i> Umat</h4>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
-                <!-- ./col -->
-
-                <!-- ./col -->
-            </div>
-            <!-- /.row -->
-            <!-- Main row -->
-            <div class="row">
-                <!-- Chart Pie Admin vs Pengguna -->
-                <section class="col-lg-6 connectedSortable">
-                    <div class="card">
-                        <div class="card-header bg-info">
-                            <h3 class="card-title">Diagram Admin vs Pengguna</h3>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="userChart" width="400" height="400"></canvas>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Chart Line Pengguna per Hari -->
-                <section class="col-lg-6 connectedSortable">
-                    <div class="card">
-                        <div class="card-header bg-success">
-                            <h3 class="card-title">User per Hari</h3>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="userPerhari" width="400" height="400"></canvas>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <!-- /.row (main row) -->
-
+        @endif
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
     </div>
 @endsection
+
+
+
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
