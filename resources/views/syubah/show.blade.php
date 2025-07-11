@@ -24,25 +24,31 @@
                                     <div class="callout callout-info py-3 px-4">
                                         <div class="d-flex justify-content-between mb-2">
                                             <div>
-                                                <strong>H :</strong> {{ $tausiyah->holaqoh }}
+                                                <strong>H :</strong> {{ $tausiyah->holaqoh->kode_holaqoh }}
                                             </div>
                                             <small class="text-muted">
                                                 <i class="far fa-calendar-alt"></i> {{ $tausiyah->bulan }}
                                             </small>
                                         </div>
-
-                                        <p class="mb-1">
-                                            <i class="fas fa-user-edit mr-1"></i>
-                                            <strong>Pengisi:</strong> {{ $tausiyah->pengisi }}
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="fas fa-map-marker-alt mr-1"></i>
-                                            <strong>Tempat:</strong> {{ $tausiyah->tempat }}
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="fas fa-percentage mr-1"></i>
-                                            <strong>Persentase Absensi:</strong> {{ $persentase_absensi }}%
-                                        </p>                                        
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p class="mb-1"><i class="fas fa-user-edit mr-1"></i><strong>Pengisi:</strong> {{ $tausiyah->pengisi }}</p>
+                                                <p class="mb-1"><i class="fas fa-map-marker-alt mr-1"></i><strong>Tempat:</strong> {{ $tausiyah->tempat }}</p>
+                                                <p class="mb-1"><i class="fas fa-percentage mr-1"></i><strong>Persentase Absensi:</strong> {{ $persentase_absensi }}%</p>
+                                            </div>
+                                        
+                                            <div class="col-md-4">
+                                                <p class="mb-1"><i class="fas fa-users mr-1"></i><strong>Jumlah Wajib Hadir (JWH):</strong> {{ $jwh }}</p>
+                                                <p class="mb-1"><i class="fas fa-user-check mr-1"></i><strong>Jumlah Hadir (JH):</strong> {{ $jumlahHadir }}</p>
+                                            </div>
+                                        
+                                            <div class="col-md-4">
+                                                <p class="mb-1"><i class="fas fa-user-clock mr-1"></i><strong>Jumlah Izin (JI):</strong> {{ $jumlahIzin }}</p>
+                                                <p class="mb-1"><i class="fas fa-question-circle mr-1"></i><strong>Tanpa Keterangan (TK):</strong> {{ $jumlahTanpaKeterangan }}</p>
+                                                <p class="mb-1"><i class="fas fa-user-injured mr-1"></i><strong>Jumlah Sakit (JS):</strong> {{ $jumlahSakit }}</p>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +70,6 @@
                                             <td>{{ $item->ket }}</td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>
@@ -80,5 +85,4 @@
     </section>
     <!-- /.content -->
     </div>
-    @include('mudir.tausiyah.modal_absen')
 @endsection

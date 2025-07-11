@@ -9,10 +9,7 @@
                     <!-- /.card -->
 
                     <div class="card">
-                        <div class="card-header bg-info">
-                            <a href="{{ url()->previous() }}" class="btn btn-outline-light btn-sm text-dark font-weight-bold">
-                                <i class="fas fa-arrow-left mr-1"></i> Kembali
-                            </a>
+                        <div class="card-header bg-info" style="height: 50px;">
                         </div>
 
                         <!-- /.card-header -->
@@ -32,13 +29,13 @@
                                     @foreach ($tausiyah as $item)
                                         <tr>
                                             <td>
-                                                <a href="{{ route('absensi.show', $item->id) }}"
+                                                <a href="{{ route('syubah.show', $item->id) }}"
                                                     class="d-block text-decoration-none text-dark">
                                                     {{ $item->pengisi }} | {{ $item->tempat }}
                                                 </a>
                                             </td>
                                             <td>{{ $item->created_at }}</td>
-                                            <td>{{ $item->holaqoh }}</td>
+                                            <td>{{ $item->holaqoh->kode_holaqoh }}</td>
                                             <td>
                                                 {{ $item->user->name ?? '-' }}
                                             </td>

@@ -28,7 +28,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
     Route::resource('member', MemberController::class);
     Route::resource('holaqoh', HolaqohController::class);
     Route::resource('jamiah', JamiahController::class);
-
+    Route::resource('syubah', AbsensiController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

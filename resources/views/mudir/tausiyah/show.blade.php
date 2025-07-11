@@ -39,6 +39,10 @@
                                             <i class="fas fa-map-marker-alt mr-1"></i>
                                             <strong>Tempat:</strong> {{ $tausiyah->tempat }}
                                         </p>
+                                        <p class="mb-0">
+                                            <i class="fas fa-newspaper"></i>
+                                            <strong>Media:</strong> {{ $tausiyah->media }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

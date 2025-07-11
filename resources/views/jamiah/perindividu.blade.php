@@ -23,8 +23,15 @@
                                         <label for="tahun" class="col-form-label">Tahun:</label>
                                     </div>
                                     <div class="col-auto">
-                                        <input type="number" name="tahun" id="tahun" class="form-control"
-                                            value="{{ $filter_tahun }}" min="2000" max="{{ date('Y') }}">
+                                        <select name="tahun" id="tahun" class="form-control">
+                                            <option value="">- Pilih Tahun -</option>
+                                            @for ($t = date('Y'); $t >= 2000; $t--)
+                                                <option value="{{ $t }}"
+                                                    {{ $filter_tahun == $t ? 'selected' : '' }}>
+                                                    {{ $t }}
+                                                </option>
+                                            @endfor
+                                        </select>
                                     </div>
 
                                     <div class="col-auto">
@@ -32,6 +39,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <select name="bulan" id="bulan" class="form-control">
+                                            <option value="">- Pilih Bulan -</option>
                                             @for ($m = 1; $m <= 12; $m++)
                                                 <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}"
                                                     {{ $filter_bulan == str_pad($m, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
@@ -46,10 +54,10 @@
                                     </div>
                                     <div class="col-auto">
                                         <select name="syubah" id="syubah" class="form-control">
-                                            <option value="">-- Pilih Syubah --</option>
+                                            <option value="">- Pilih Syubah -</option>
                                             @foreach ($syubahOptions as $option)
                                                 <option value="{{ $option }}"
-                                                    {{ isset($filter_syubah) && $filter_syubah == $option ? 'selected' : '' }}>
+                                                    {{ $filter_syubah == $option ? 'selected' : '' }}>
                                                     {{ $option }}
                                                 </option>
                                             @endforeach
@@ -74,6 +82,7 @@
                                         <th>Nama Umat</th>
                                         <th>Hadir</th>
                                         <th>Izin</th>
+                                        <th>Sakit</th>
                                         <th>Tanpa Keterangan</th>
                                         <th>Total Absensi</th>
                                         <th>Persentase Absensi (%)</th>
@@ -85,6 +94,7 @@
                                             <td>{{ $item['member']->name }}</td>
                                             <td>{{ $item['hadir'] }}</td>
                                             <td>{{ $item['izin'] }}</td>
+                                            <td>{{ $item['sakit'] }}</td>
                                             <td>{{ $item['tanpa_keterangan'] }}</td>
                                             <td>{{ $item['total'] }}</td>
                                             <td>{{ $item['persentase'] }}</td>

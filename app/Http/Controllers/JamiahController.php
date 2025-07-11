@@ -72,12 +72,15 @@ class JamiahController extends Controller
      */
     public function show(string $id)
     {
-        $tausiyah = Tausiyah::with('user')->findOrFail($id);
-        $syubah = $tausiyah->user->syubah;
+        $tausiyah = Tausiyah::findOrFail($id);
 
-        $members = Member::where('syubah', $syubah)
-        ->where('holaqoh', $tausiyah->holaqoh)
-        ->get();
+        $members = Member::where('syubah', Auth::user()->syubah)
+            ->whereIn('id', function ($q) use ($tausiyah) {
+                $q->select('member_id')
+                ->from('detail_holaqoh') // Ganti sesuai nama tabel yang benar
+                ->where('holaqoh_id', $tausiyah->holaqoh_id);
+            })
+            ->get();
 
         $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->with('member')->get();
 
@@ -85,6 +88,7 @@ class JamiahController extends Controller
         $jumlahIzin = $absensi->where('status', 'izin')->count();
         $jumlahTanpaKeterangan = $absensi->where('status', 'tanpa_keterangan')->count();
         $jumlahHadir = $absensi->where('status', 'hadir')->count();
+        $jumlahSakit = $absensi->where('status', 'sakit')->count();
 
         $jml = $jumlahIzin + $jumlahTanpaKeterangan;
         $jwh = $jumlahHadir + $jumlahIzin + $jumlahTanpaKeterangan;
@@ -93,12 +97,16 @@ class JamiahController extends Controller
 
         $data = array(
             "title" => "Detail Tausiyah & Kehadiran",
-            "menuJamiahLaporan" => "menu-open",
+            "menuSyubahLaporan" => "menu-open",
             "tausiyah" => $tausiyah,
             "members" => $members,
             "absensi" => $absensi,
-            'syubah' => $syubah,
             "persentase_absensi" => $persentase_absensi,
+            "jumlahHadir" => $jumlahHadir,
+            "jumlahIzin" => $jumlahIzin,
+            "jumlahSakit" => $jumlahSakit,
+            "jumlahTanpaKeterangan" => $jumlahTanpaKeterangan,
+            "jwh" => $jwh,
         );
 
         return view('jamiah.show', $data);
@@ -167,6 +175,7 @@ class JamiahController extends Controller
             // Hitung jumlah status kehadiran
             $jumlah_hadir = $absensis->where('status', 'hadir')->count();
             $jumlah_izin = $absensis->where('status', 'izin')->count();
+            $jumlah_sakit = $absensis->where('status', 'sakit')->count();
             $jumlah_tanpa_keterangan = $absensis->where('status', 'tanpa_keterangan')->count();
             $total = $jumlah_izin + $jumlah_tanpa_keterangan;
             $jwh = $jumlah_hadir + $jumlah_izin + $jumlah_tanpa_keterangan;
@@ -179,12 +188,17 @@ class JamiahController extends Controller
                 'member' => $member,
                 'hadir' => $jumlah_hadir,
                 'izin' => $jumlah_izin,
+                'sakit' => $jumlah_sakit,
                 'tanpa_keterangan' => $jumlah_tanpa_keterangan,
                 'total' => $total,
                 'persentase' => $persentase,
             ];
         }
 
+        $tahun = $request->filled('tahun') ? $request->input('tahun') : null;
+        $bulan = $request->filled('bulan') ? $request->input('bulan') : null;
+        $syubah = $request->filled('syubah') ? $request->input('syubah') : null;
+        
         $syubahOptions = ['AshShidiqqin', 'AsySyuhada', 'AshSholihin', 'AlMutaqien', 'AlMuhsinin', 'AshShobirin'];
 
         // Kirim data ke view untuk ditampilkan

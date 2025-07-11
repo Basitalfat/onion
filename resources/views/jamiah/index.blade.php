@@ -73,7 +73,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $item->created_at }}</td>
-                                            <td>{{ $item->holaqoh }}</td>
+                                            <td>{{ $item->holaqoh->kode_holaqoh }}</td>
                                             <td>
                                                 {{ $item->user->name ?? '-' }}
                                             </td>
