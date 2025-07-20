@@ -7,6 +7,7 @@ use App\Models\Holaqoh;
 use Illuminate\Http\Request;
 use App\Models\DetailHolaqoh;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Spatie\SimpleExcel\SimpleExcelReader;
@@ -50,7 +51,8 @@ class HolaqohController extends Controller
             "title" => "Edit Data Halaqoh",
             "menuAdminHolaqoh" => "menu-open",
             "holaqoh"  => Holaqoh::findOrFail($id),
-            "members" => Member::where('syubah', $holaqoh->syubah)->get(),
+            // "members" => Member::where('syubah', $holaqoh->syubah)->get(),
+            "members" => Member::where('syubah', Auth::user()->syubah)->get(),
             "detail_holaqoh" => DetailHolaqoh::with('member')
                             ->where('holaqoh_id', $id)
                             ->get(),

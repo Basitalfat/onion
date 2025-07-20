@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\DetailHolaqoh;
-use App\Models\Holaqoh;
 use App\Models\Member;
+use App\Models\Holaqoh;
 use Illuminate\Http\Request;
+use App\Models\DetailHolaqoh;
+use Illuminate\Support\Facades\Auth;
 
 class DetailHolaqohController extends Controller
 {
@@ -20,6 +21,7 @@ class DetailHolaqohController extends Controller
 
         return response()->json(['data' => $detail]);
     }
+
 
     public function store(Request $request)
     {

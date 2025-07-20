@@ -132,10 +132,7 @@
                                 <select name="member_id" class="form-control" required>
                                     <option value="">-- Pilih Member --</option>
                                     @foreach ($members as $item)
-                                        @if ($item->syubah == $holaqoh->syubah)
-                                            {{-- sesuaikan kondisi --}}
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endif
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
