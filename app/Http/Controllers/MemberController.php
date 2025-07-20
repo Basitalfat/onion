@@ -125,7 +125,7 @@ class MemberController extends Controller
                 ->getRows()
                 ->each(function (array $row) {
                     if (
-                        isset($row['name'], $row['nas'], $row['syubah'], $row['holaqoh'])
+                        isset($row['name'], $row['nas'], $row['syubah'])
                     ) {
                         Member::create([
                             'name'    => $row['name'],
