@@ -150,8 +150,8 @@ class JamiahController extends Controller
             $bulan = date('m');
         }
 
-        // Ambil syubah dari input, default dari user login
-        $syubah = $request->input('syubah', auth()->user()->syubah);
+        // Menampilkan default seluruh umat
+        $syubah = $request->input('syubah');
 
         // Ambil list syubah unik dari user untuk dropdown filter
         $listSyubah = \App\Models\User::select('syubah')->distinct()->orderBy('syubah')->pluck('syubah');
