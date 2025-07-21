@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\Absensi;
+use App\Models\Holaqoh;
 use App\Models\Tausiyah;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -215,76 +216,56 @@ class JamiahController extends Controller
 
     public function exportPdf(Request $request)
     {
-        $syubah = $request->input('syubah');
-        $tahun = $request->input('tahun');
-        $tahun_hijriah = $request->input('tahun_hijriah');
-        $bulan = $request->input('bulan');
+        $bulan = $request->bulan;
+        $tahun_hijriah = $request->tahun_hijriah;
+        $syubah = $request->syubah;
 
-        $query = Tausiyah::with(['user', 'absensis'])
-            ->when($syubah, function ($q) use ($syubah) {
-                $q->whereHas('user', function ($sub) use ($syubah) {
-                    $sub->where('syubah', $syubah);
-                });
-            });
+        $halaqohs = Holaqoh::where('syubah', $syubah)->get();
 
-        if ($tahun_hijriah) {
-            try {
-                $start = Carbon::createFromFormat('d-m-Y', Hijri::convertToGregorian("01-01-$tahun_hijriah"));
-                $end = Carbon::createFromFormat('d-m-Y', Hijri::convertToGregorian("30-12-$tahun_hijriah"));
-                $query->whereBetween('created_at', [$start, $end]);
-            } catch (\Exception $e) {
-                //
-            }
-        } elseif ($tahun) {
-            $query->whereYear('created_at', $tahun);
-            if ($bulan) {
-                $query->whereMonth('created_at', $bulan);
-            }
-        }
-
-        $tausiyah = $query->get();
-
-        // Hitung rekap absensi per halaqoh
         $rekap = [];
 
-        foreach ($tausiyah->groupBy('holaqoh') as $holaqoh => $items) {
-            $anggota = Member::where('syubah', $syubah)->where('holaqoh', $holaqoh)->count();
-            $liqo = $items->count();
+        foreach ($halaqohs as $detail_holaqoh) {
+            $anggota = $detail_holaqoh->members()->count();
+            $liqo = $detail_holaqoh->absensis()
+                            ->whereMonth('tanggal', $bulan)
+                            ->where('tanggal_hijriah', 'like', $tahun_hijriah.'%')
+                            ->count();
 
-            $jumlahHadir = 0;
-            $jumlahIzin = 0;
-            $jumlahTanpaKeterangan = 0;
+            $jwh = $anggota * $liqo;
 
-            foreach ($items as $tausiyahItem) {
-                $jumlahHadir += $tausiyahItem->absensis->where('status', 'hadir')->count();
-                $jumlahIzin += $tausiyahItem->absensis->where('status', 'izin')->count();
-                $jumlahTanpaKeterangan += $tausiyahItem->absensis->where('status', 'tanpa_keterangan')->count();
-            }
+            $izin = $detail_holaqoh->absensis()
+                            ->whereMonth('tanggal', $bulan)
+                            ->where('tanggal_hijriah', 'like', $tahun_hijriah.'%')
+                            ->where('keterangan', 'izin')
+                            ->count();
 
-            $jml = $jumlahIzin + $jumlahTanpaKeterangan;
-            $jwh = $jumlahHadir + $jumlahIzin + $jumlahTanpaKeterangan;
+            $tanpa_ket = $detail_holaqoh->absensis()
+                                ->whereMonth('tanggal', $bulan)
+                                ->where('tanggal_hijriah', 'like', $tahun_hijriah.'%')
+                                ->where('keterangan', 'tanpa_keterangan')
+                                ->count();
 
-            $persentase = $jwh > 0 ? round(($jml / $jwh) * 100, 2) : 0;
+            $total_absen = $izin + $tanpa_ket;
+
+            $persentase = $jwh > 0 ? round(($total_absen / $jwh) * 100, 2) : 0;
 
             $rekap[] = [
-                'kode' => $holaqoh,
+                'kode' => $detail_holaqoh->kode,
                 'anggota' => $anggota,
                 'liqo' => $liqo,
                 'jwh' => $jwh,
-                'izin' => $jumlahIzin,
-                'tanpa_ket' => $jumlahTanpaKeterangan,
-                'total_absen' => $jml,
+                'izin' => $izin,
+                'tanpa_ket' => $tanpa_ket,
+                'total_absen' => $total_absen,
                 'persentase' => $persentase,
             ];
         }
 
         $pdf = Pdf::loadView('jamiah.export', [
             'rekap' => $rekap,
-            'syubah' => $syubah,
-            'tahun_hijriah' => $tahun_hijriah,
-            'bulan' => $bulan,
-        ]);
+            'bulan' => bulanIndo($bulan),
+        ])->setPaper('A4', 'portrait');
 
-        return $pdf->download('ikbhar-syahriah.pdf');
+        return $pdf->stream('ikhbar_syahriyah.pdf');
     }
 }
