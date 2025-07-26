@@ -9,6 +9,8 @@ use App\Models\Tausiyah;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class JamiahController extends Controller
 {
     /**
@@ -216,56 +218,113 @@ class JamiahController extends Controller
 
     public function exportPdf(Request $request)
     {
-        $bulan = $request->bulan;
-        $tahun_hijriah = $request->tahun_hijriah;
-        $syubah = $request->syubah;
+        $query = Tausiyah::with(['user', 'holaqoh']);
 
-        $halaqohs = Holaqoh::where('syubah', $syubah)->get();
-
-        $rekap = [];
-
-        foreach ($halaqohs as $detail_holaqoh) {
-            $anggota = $detail_holaqoh->members()->count();
-            $liqo = $detail_holaqoh->absensis()
-                            ->whereMonth('tanggal', $bulan)
-                            ->where('tanggal_hijriah', 'like', $tahun_hijriah.'%')
-                            ->count();
-
-            $jwh = $anggota * $liqo;
-
-            $izin = $detail_holaqoh->absensis()
-                            ->whereMonth('tanggal', $bulan)
-                            ->where('tanggal_hijriah', 'like', $tahun_hijriah.'%')
-                            ->where('keterangan', 'izin')
-                            ->count();
-
-            $tanpa_ket = $detail_holaqoh->absensis()
-                                ->whereMonth('tanggal', $bulan)
-                                ->where('tanggal_hijriah', 'like', $tahun_hijriah.'%')
-                                ->where('keterangan', 'tanpa_keterangan')
-                                ->count();
-
-            $total_absen = $izin + $tanpa_ket;
-
-            $persentase = $jwh > 0 ? round(($total_absen / $jwh) * 100, 2) : 0;
-
-            $rekap[] = [
-                'kode' => $detail_holaqoh->kode,
-                'anggota' => $anggota,
-                'liqo' => $liqo,
-                'jwh' => $jwh,
-                'izin' => $izin,
-                'tanpa_ket' => $tanpa_ket,
-                'total_absen' => $total_absen,
-                'persentase' => $persentase,
-            ];
+        if ($request->filled('syubah')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('syubah', $request->syubah);
+            });
         }
 
+        $tausiyahs = $query->get();
+
+        // Rekapitulasi Halaqoh Reguler Berdasarkan Data Nyata
+        $halaqohReguler = $tausiyahs->groupBy('holaqoh.kode_holaqoh')->map(function ($group, $kode) {
+            $totalAhlu = 0;
+            $totalLiqo = $group->count();
+            $totalIzin = 0;
+            $totalTanpaIzin = 0;
+            $totalHadir = 0;
+            $totalWajib = 0;
+
+            foreach ($group as $tausiyah) {
+                // Hitung jumlah ahlu dari detail_holaqoh
+                $ahluIds = DB::table('detail_holaqoh')
+                    ->where('holaqoh_id', $tausiyah->holaqoh_id)
+                    ->pluck('member_id');
+
+                $jmlAhlu = $ahluIds->count();
+                $totalAhlu = $jmlAhlu; // asumsi sama untuk semua liqo di grup
+
+                // Ambil absensi
+                $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->get();
+
+                $izin = $absensi->where('status', 'izin')->count();
+                $tanpaIzin = $absensi->where('status', 'tanpa_keterangan')->count();
+                $hadir = $absensi->where('status', 'hadir')->count();
+                // Sakit tidak dihitung dalam absen (asumsi sama seperti show())
+
+                $wajib = $izin + $tanpaIzin + $hadir;
+
+                $totalIzin += $izin;
+                $totalTanpaIzin += $tanpaIzin;
+                $totalHadir += $hadir;
+                $totalWajib += $wajib;
+            }
+
+            $totalAbsen = $totalIzin + $totalTanpaIzin;
+            $persentase = $totalWajib > 0 ? number_format(($totalAbsen / $totalWajib) * 100, 2) : 0;
+
+            return [
+                'kode' => $kode,
+                'jumlah_ahlu' => $totalAhlu,
+                'jumlah_liqo' => $totalLiqo,
+                'jumlah_wajib' => $totalWajib,
+                'izin' => $totalIzin,
+                'tanpa_izin' => $totalTanpaIzin,
+                'absen_total' => $totalAbsen,
+                'jumlah' => $totalHadir,
+                'persentase' => $persentase,
+            ];
+        })->values();
+
+        // =======================
+        // Data Lain Bisa Disesuaikan
+        // =======================
+        
+        // Simulasi Rekap Mudzakkir (ubah jika punya struktur relasi sebenarnya)
+        $dataMudzakkir = [
+            'syubah' => 4,
+            'jamiah' => 2,
+            'total' => 6,
+            'frekuensi' => 'MJ01(1x), MJ02(2x)',
+            'terjadwal' => 10,
+            'hadir' => 8,
+            'absen' => 2,
+            'persentase' => 20.00
+        ];
+
+        // Simulasi Gabungan (jika ada data nyata bisa ganti)
+        // $halaqohGabungan = collect([
+        //     [
+        //         'segmen' => 'Gabungan 1',
+        //         'jumlah_ahlu' => 30,
+        //         'jumlah_liqo' => 2,
+        //         'jumlah_wajib' => 60,
+        //         'izin' => 3,
+        //         'tanpa_izin' => 1,
+        //         'jumlah' => 56,
+        //         'persentase' => 6.67,
+        //     ],
+        //     [
+        //         'segmen' => 'Gabungan 2',
+        //         'jumlah_ahlu' => 25,
+        //         'jumlah_liqo' => 2,
+        //         'jumlah_wajib' => 50,
+        //         'izin' => 2,
+        //         'tanpa_izin' => 2,
+        //         'jumlah' => 46,
+        //         'persentase' => 8.00,
+        //     ]
+        // ]);
+
+        // Generate PDF
         $pdf = Pdf::loadView('jamiah.export', [
-            'rekap' => $rekap,
-            'bulan' => bulanIndo($bulan),
+            'halaqohReguler' => $halaqohReguler,
+            'mudzakkir' => $dataMudzakkir,
+            // 'halaqohGabungan' => $halaqohGabungan
         ])->setPaper('A4', 'portrait');
 
-        return $pdf->stream('ikhbar_syahriyah.pdf');
+        return $pdf->download('laporan_tausiyah.pdf');
     }
 }
