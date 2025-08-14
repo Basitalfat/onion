@@ -6,6 +6,7 @@ use id;
 use App\Models\Member;
 use App\Models\Absensi;
 use App\Models\Holaqoh;
+use App\Models\Pengisi;
 use App\Models\Tausiyah;
 use Illuminate\Http\Request;
 use App\Models\DetailHolaqoh;
@@ -31,6 +32,7 @@ class TausiyahController extends Controller
             "menuMudirTausiyah" => "menu-open",
             "tausiyah"  => $tausiyah,
             "holaqohs" => Holaqoh::all(),
+            "pengisi" => Pengisi::orderBy('name', 'asc')->get(),
         );
         return view('mudir.tausiyah.index', $data);
     }
@@ -51,19 +53,19 @@ class TausiyahController extends Controller
     {
         $request->validate([
             "tanggal" => 'required|date',
-            "pengisi" => 'required|string',
+            "pengisi_id" => 'required|exists:pengisi,id',
             "tempat" => 'required|string',
             'holaqoh_id' => 'required|exists:holaqohs,id',
             "media" => 'required|in:online,offline,hybrid',
 
         ],[
-            'pengisi.required'         => 'Pengisi tidak boleh kosong',
+            'pengisi_id.required' => 'Pengisi tidak boleh kosong',
             'tempat.required'        => 'Email tidak boleh kosong',
 
     ]);
 
     $tausiyah = Tausiyah::create([
-        'pengisi' => $request->pengisi,
+        'pengisi_id' => $request->pengisi_id,
         'tempat' => $request->tempat,
         'bulan' => $request->tanggal,
         'holaqoh_id' => $request->holaqoh_id,

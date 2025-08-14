@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tausiyahs', function (Blueprint $table) {
             $table->id();
-            $table->string('pengisi');
+            $table->foreignid('pengisi_id')->constrained('pengisi')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('tempat');
             $table->string('bulan');
             $table->string('holaqoh');

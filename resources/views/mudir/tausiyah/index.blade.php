@@ -40,7 +40,7 @@
                                                 <a href="{{ route('tausiyah.show', $item->id) }}"
                                                     class="d-block text-decoration-none text-dark">
                                                     {{ $item->bulan }} |
-                                                    {{ $item->holaqoh->kode_holaqoh ?? '-' }} | {{ $item->pengisi }} |
+                                                    {{ $item->holaqoh->kode_holaqoh ?? '-' }} | {{ $item->pengisi->name }} |
                                                     {{ $item->tempat }} | {{ ucfirst($item->media) }}
                                                 </a>
                                             </td>

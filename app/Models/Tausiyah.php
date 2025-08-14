@@ -8,7 +8,7 @@ class Tausiyah extends Model
 {
     protected $fillable = [
         'tanggal',
-        'pengisi',
+        'pengisi_id',
         'tempat',
         'bulan',
         'holaqoh_id',
@@ -16,6 +16,10 @@ class Tausiyah extends Model
         'user_id',
     ];
         // Relasi ke User
+        public function pengisi()
+        {
+            return $this->belongsTo(Pengisi::class);
+        }
         public function user()
         {
             return $this->belongsTo(User::class);

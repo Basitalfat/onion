@@ -114,8 +114,10 @@
                         <h3>Kelebihan Sistem Maktabiyah</h3>
                         <ul>
                             <li><i class="bi bi-check2-all"></i> <span>Dapat mengelola data anggota halaqoh</span></li>
-                            <li><i class="bi bi-check2-all"></i> <span>Dapat menambahkan absensi secara digital</span></li>
-                            <li><i class="bi bi-check2-all"></i> <span>Dapat memantau laporan absensi secara real time</span></li>
+                            <li><i class="bi bi-check2-all"></i> <span>Dapat menambahkan absensi secara digital</span>
+                            </li>
+                            <li><i class="bi bi-check2-all"></i> <span>Dapat memantau laporan absensi secara real
+                                    time</span></li>
                         </ul>
                     </div>
                 </div>

@@ -45,7 +45,7 @@
                                 </div>
 
                                 <a href="{{ route('jamiah.exportPdf', ['syubah' => request('syubah')]) }}"
-                                    class="btn btn-danger ml-2">
+                                    class="btn btn-danger ml-2" target="_blank">
                                     <i class="fas fa-file-pdf mr-1"></i> Export PDF
                                 </a>
                             </form>

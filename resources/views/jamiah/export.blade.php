@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Export Laporan Ikhbar</title>
@@ -21,11 +22,14 @@
             margin-bottom: 15px;
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid #000;
         }
 
-        th, td {
+        th,
+        td {
             padding: 4px;
             text-align: center;
         }
@@ -58,6 +62,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="header">
@@ -126,7 +131,9 @@
                 <td colspan="2">{{ $mudzakkir['frekuensi'] }}</td>
             </tr>
             <tr>
-                <td colspan="5" class="text-left">Terjadwal: {{ $mudzakkir['terjadwal'] }} | Hadir: {{ $mudzakkir['hadir'] }} | Absen: {{ $mudzakkir['absen'] }} | Persentase: {{ $mudzakkir['persentase'] }}%</td>
+                <td colspan="5" class="text-left">Terjadwal: {{ $mudzakkir['terjadwal'] }} | Hadir:
+                    {{ $mudzakkir['hadir'] }} | Absen: {{ $mudzakkir['absen'] }} | Persentase:
+                    {{ $mudzakkir['persentase'] }}%</td>
             </tr>
         </tbody>
     </table>
@@ -203,4 +210,5 @@
     </table>
 
 </body>
+
 </html>

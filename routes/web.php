@@ -6,11 +6,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\JamiahController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\HolaqohController;
+use App\Http\Controllers\PengisiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TausiyahController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailHolaqohController;
-use App\Http\Controllers\HolaqohController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +30,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
     Route::resource('holaqoh', HolaqohController::class);
     Route::resource('jamiah', JamiahController::class);
     Route::resource('syubah', AbsensiController::class);
+    Route::resource('pengisi', PengisiController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

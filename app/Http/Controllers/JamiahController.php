@@ -325,6 +325,6 @@ class JamiahController extends Controller
             // 'halaqohGabungan' => $halaqohGabungan
         ])->setPaper('A4', 'portrait');
 
-        return $pdf->download('laporan_tausiyah.pdf');
+        return $pdf->stream('laporan_tausiyah.pdf');
     }
 }

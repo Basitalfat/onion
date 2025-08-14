@@ -18,9 +18,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="pengisi">Pengisi :</label>
-                            <input type="text" name="pengisi" class="form-control" value="{{ old('pengisi') }}"
-                                required>
+                            <label for="pengisi_id">Pengisi:</label>
+                            <select name="pengisi_id" id="pengisi_id" class="form-control" required>
+                                <option value="" disabled selected>-- Pilih Pengisi --</option>
+                                @foreach ($pengisi as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('pengisi_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
