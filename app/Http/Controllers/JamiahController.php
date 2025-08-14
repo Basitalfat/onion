@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use App\Models\Absensi;
 use App\Models\Holaqoh;
+use App\Models\Pengisi;
 use App\Models\Tausiyah;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class JamiahController extends Controller
 {
@@ -284,9 +285,9 @@ class JamiahController extends Controller
         
         // Simulasi Rekap Mudzakkir (ubah jika punya struktur relasi sebenarnya)
         $dataMudzakkir = [
-            'syubah' => 4,
-            'jamiah' => 2,
-            'total' => 6,
+            'syubah' => Pengisi::where('status', 'syubah')->count(),
+            'jamiah' => Pengisi::where('status', 'jamiah')->count(),
+            'total' => Pengisi::whereIn('status', ['syubah', 'jamiah'])->count(),
             'frekuensi' => 'MJ01(1x), MJ02(2x)',
             'terjadwal' => 10,
             'hadir' => 8,

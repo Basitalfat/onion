@@ -33,7 +33,7 @@
 
                                         <p class="mb-1">
                                             <i class="fas fa-user-edit mr-1"></i>
-                                            <strong>Pengisi:</strong> {{ $tausiyah->pengisi }}
+                                            <strong>Pengisi:</strong> {{ $tausiyah->pengisi->name }}
                                         </p>
                                         <p class="mb-0">
                                             <i class="fas fa-map-marker-alt mr-1"></i>
