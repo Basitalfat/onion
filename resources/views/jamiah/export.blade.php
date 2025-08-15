@@ -68,7 +68,7 @@
     <div class="header">
         <p><strong>Imarotul Muslimin</strong><br>TADBIR SYU'BAH</p>
         <p><strong>IKHBAR SYAHRIYAH QISMU BINA</strong><br>No. Syu.../U/.../Xx....</p>
-        <p>Syahr : RAMADHAN 1446 H</p>
+        <p>Syahr : {{ strtoupper($bulan) }} {{ $tahun }} H</p>
     </div>
 
     {{-- Tabel 1: Rekap Halaqoh Reguler --}}
@@ -184,7 +184,7 @@
     <br><br>
     <table class="signature" style="border: none; margin-top: 50px;">
         <tr>
-            <td>Daar .............., ........... 1446 H</td>
+            <td>Daar .............., ........... {{ $tahun }} H</td>
         </tr>
         <tr>
             <td><strong>Imarotul Muslimin</strong><br>Tadbir Syu’bah ..........</td>
