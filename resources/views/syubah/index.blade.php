@@ -31,7 +31,7 @@
                                             <td>
                                                 <a href="{{ route('syubah.show', $item->id) }}"
                                                     class="d-block text-decoration-none text-dark">
-                                                    {{ $item->pengisi }} | {{ $item->tempat }}
+                                                    {{ $item->pengisi->name }} | {{ $item->tempat }}
                                                 </a>
                                             </td>
                                             <td>{{ $item->created_at }}</td>

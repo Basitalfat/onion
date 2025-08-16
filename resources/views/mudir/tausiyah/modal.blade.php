@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label for="tempat">Tempat :</label>
                             <input type="text" name="tempat" class="form-control" value="{{ old('tempat') }}"
-                                required>
+                                required autocomplete="off">
                         </div>
 
                         <div class="form-group">

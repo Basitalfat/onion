@@ -16,32 +16,6 @@ class AbsensiController extends Controller
      * Display a listing of the resource.
      */
 
-
-    // public function index()
-    // {
-    //     $syubah = Auth::user()->syubah;
-
-    // $tausiyahPerBulan = Tausiyah::select(
-    //         DB::raw('MONTH(created_at) as created_at'),
-    //         DB::raw('YEAR(created_at) as tahun'),
-    //         DB::raw('COUNT(*) as jumlah')
-    //     )
-    //     ->whereHas('user', function ($query) use ($syubah) {
-    //         $query->where('syubah', $syubah);
-    //     })
-    //     ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
-    //     ->orderBy(DB::raw('YEAR(created_at)'), 'desc')
-    //     ->orderBy(DB::raw('MONTH(created_at)'), 'desc')
-    //     ->get();
-
-    // $data = [
-    //     "title" => "Laporan Per Bulan",
-    //     "tausiyahPerBulan" => $tausiyahPerBulan,
-    // ];
-
-    // return view('syubah.index1', $data);
-    // }
-
     public function index()
     {
         $syubah = Auth::user()->syubah;
