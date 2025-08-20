@@ -149,6 +149,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item {{ $menuAdminHolaqoh ?? '' }}">
+                        <a href="{{ route('holaqoh.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Holaqoh
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-item {{ $menuSyubahLaporan ?? '' }}">
                         <a href="{{ route('absensi.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>

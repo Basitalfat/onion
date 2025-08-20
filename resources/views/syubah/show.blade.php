@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <p class="mb-1"><i class="fas fa-user-edit mr-1"></i><strong>Pengisi:</strong> {{ $tausiyah->pengisi }}</p>
+                                                <p class="mb-1"><i class="fas fa-user-edit mr-1"></i><strong>Pengisi:</strong> {{ $tausiyah->pengisi->name }}</p>
                                                 <p class="mb-1"><i class="fas fa-map-marker-alt mr-1"></i><strong>Tempat:</strong> {{ $tausiyah->tempat }}</p>
                                                 <p class="mb-1"><i class="fas fa-percentage mr-1"></i><strong>Persentase Absensi:</strong> {{ $persentase_absensi }}%</p>
                                             </div>
