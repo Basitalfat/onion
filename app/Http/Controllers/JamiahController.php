@@ -362,6 +362,15 @@ class JamiahController extends Controller
         $bulan = $hijri['bulan'];
         $tahun = $hijri['tahun'];
 
+        $kodePertama = $halaqohReguler->first()['kode'] ?? null;
+
+        $holaqoh = null;
+        $syubah = null;
+
+        if ($kodePertama) {
+            $holaqoh = \App\Models\Holaqoh::where('kode_holaqoh', $kodePertama)->first();
+            $syubah = $holaqoh ? $holaqoh->syubah : 'Tidak ditemukan';
+}
         // Generate PDF
         $pdf = Pdf::loadView('jamiah.export', [
             'halaqohReguler' => $halaqohReguler,
@@ -369,7 +378,7 @@ class JamiahController extends Controller
             'hijri' => $this->gregorianToHijri(),
             'bulan' => $hijri['bulan'],
             'tahun' => $hijri['tahun'],
-
+            'syubah' => $syubah,
             // 'halaqohGabungan' => $halaqohGabungan
         ])->setPaper('A4', 'portrait');
 

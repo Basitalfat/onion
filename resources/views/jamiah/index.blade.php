@@ -65,7 +65,7 @@
                                             <td>
                                                 <a href="{{ route('jamiah.show', $item->id) }}"
                                                     class="d-block text-decoration-none text-dark">
-                                                    {{ $item->user->syubah }} | {{ $item->pengisi->name }} |
+                                                    {{ $item->holaqoh->syubah }} | {{ $item->pengisi->name }} |
                                                     {{ $item->tempat }}
                                                 </a>
                                             </td>

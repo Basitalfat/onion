@@ -66,7 +66,7 @@
 <body>
 
     <div class="header">
-        <p><strong>Imarotul Muslimin</strong><br>TADBIR SYU'BAH</p>
+        <p><strong>Imarotul Muslimin</strong><br>TADBIR SYU'BAH {{ $syubah }}</p>
         <p><strong>IKHBAR SYAHRIYAH QISMU BINA</strong><br>No. Syu.../U/.../Xx....</p>
         <p>Syahr : {{ strtoupper($bulan) }} {{ $tahun }} H</p>
     </div>

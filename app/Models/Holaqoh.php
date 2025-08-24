@@ -11,6 +11,7 @@ class Holaqoh extends Model
     protected $fillable = [
         'kode_holaqoh',
         'name',
+        'syubah',
         
     ];
     public function absensis()

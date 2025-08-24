@@ -35,10 +35,11 @@ class HolaqohController extends Controller
             'name.required'         => 'Nama tidak boleh kosong',
     ]);
 
+   $syubah = auth()->user()->syubah;
         Holaqoh::create([
             'kode_holaqoh' => $request->kode_holaqoh,
             'name' => $request->name,
-            
+            'syubah' =>$syubah ,
         ]);
 
         return redirect()->route('holaqoh.index')->with('success', 'Data Holaqoh berhasil ditambahkan.');
