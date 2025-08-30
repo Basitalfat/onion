@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Member;
+use App\Models\Holaqoh;
+use App\Models\Pengisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,6 +28,18 @@ class DashboardController extends Controller
             "usersPerDay" => $usersPerDay
         );
         return view('dashboard', $data);
+    }
+
+    public function create()
+    {
+        $data = array(
+            "title" => "Absensi tausiyah",
+            "menuAdminDashboard" => "menu-open",
+            "holaqohs" => Holaqoh::all(),
+            "pengisi" => Pengisi::orderBy('name', 'asc')->get(),
+        );
+        
+        return view('mudir.dashboard.create', $data);
     }
    
 }

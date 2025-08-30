@@ -95,7 +95,7 @@
                             <div class="inner">
                                 <h4 class="fw-bold"><i class="ion ion-person-add"></i> Absensi</h4>
                             </div>
-                            <a href="{{ route('tausiyah.index') }}" class="small-box-footer">
+                            <a href="{{ route('absen') }}" class="small-box-footer">
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         </div>
@@ -107,7 +107,7 @@
                             <div class="inner">
                                 <h4 class="fw-bold"><i class="ion ion-stats-bars"></i> Tausiyah</h4>
                             </div>
-                            <a href="#" class="small-box-footer">
+                            <a href="{{ route('tausiyah.index') }}" class="small-box-footer">
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         </div>

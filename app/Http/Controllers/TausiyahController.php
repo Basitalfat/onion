@@ -90,7 +90,7 @@ class TausiyahController extends Controller
     }
        // Masukkan semuanya sekaligus
     Absensi::insert($absensiData);
-    return redirect()->route('tausiyah.index')->with('success', 'Tausiyah dan data absensi berhasil ditambahkan.');
+    return redirect()->route('tausiyah.show', $tausiyah->id)->with('success', 'Tausiyah dan data absensi berhasil ditambahkan.');
 }
 
     /**

@@ -10,7 +10,8 @@
 
                     <div class="card">
                         <div class="card-header bg-info">
-                            <a href="{{ url()->previous() }}" class="btn btn-outline-light btn-sm text-dark font-weight-bold">
+                            <a href="{{ route('dashboard') }}"
+                                class="btn btn-outline-light btn-sm text-dark font-weight-bold">
                                 <i class="fas fa-arrow-left mr-1"></i> Kembali
                             </a>
                         </div>

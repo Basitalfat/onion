@@ -20,7 +20,7 @@
                             Pengisi
                         </div>
                         <div class="col-6">
-                            : {{ $item->pengisi }}
+                            : {{ $item->pengisi->name }}
                         </div>
                     </div>
                     <div class="row">
