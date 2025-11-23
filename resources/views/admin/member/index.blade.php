@@ -56,8 +56,7 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>
-                                                <a href="#" class="btn-select-umat text-dark"
-                                                    data-id="{{ $item->id }}" data-name="{{ $item->name }}">
+                                                <a href="{{ route('member.show', $item->id) }}" class="text-dark" style="cursor: pointer;">
                                                     {{ $item->name }}
                                                 </a>
                                             </td>
