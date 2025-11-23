@@ -19,7 +19,7 @@
 
                         <div class="form-group">
                             <label for="pengisi_id">Pengisi:</label>
-                            <select name="pengisi_id" id="pengisi_id" class="form-control select2" required>
+                            <select name="pengisi_id" id="pengisi_id" class="form-control" required>
                                 <option value="" disabled selected>-- Pilih Pengisi --</option>
                                 @foreach ($pengisi as $item)
                                     <option value="{{ $item->id }}"
@@ -38,7 +38,7 @@
 
                         <div class="form-group">
                             <label for="holaqoh_id">Halaqoh</label>
-                            <select name="holaqoh_id" id="holaqoh_id" class="form-control select2" required>
+                            <select name="holaqoh_id" class="form-control" required>
                                 <option value="">-- Pilih Halaqoh --</option>
                                 @foreach ($holaqohs as $holaqoh)
                                     <option value="{{ $holaqoh->id }}"
