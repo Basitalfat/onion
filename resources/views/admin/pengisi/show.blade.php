@@ -15,6 +15,7 @@
 
                             <h3 class="profile-username text-center">{{ $pengisi->name }}</h3>
 
+                            <p class="text-muted text-center">{{ $pengisi->syubah }}</p>
                             <p class="text-muted text-center">Mudzakir {{ $pengisi->status }}</p>
 
 
@@ -46,6 +47,20 @@
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="inputName" placeholder="Name"
                                                     value="{{ old('name', $pengisi->name) }}" name="name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputSyubah" class="col-sm-2 col-form-label">Syubah</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control custom-select" id="inputSyubah" name="syubah">
+                                                    <option value="" disabled {{ !$pengisi->syubah ? 'selected' : '' }}>-- Pilih Syubah --</option>
+                                                    <option value="AshShidiqqin" {{ $pengisi->syubah == 'AshShidiqqin' ? 'selected' : '' }}>AshShidiqqin</option>
+                                                    <option value="AsySyuhada" {{ $pengisi->syubah == 'AsySyuhada' ? 'selected' : '' }}>AsySyuhada</option>
+                                                    <option value="AshSholihin" {{ $pengisi->syubah == 'AshSholihin' ? 'selected' : '' }}>AshSholihin</option>
+                                                    <option value="AlMutaqien" {{ $pengisi->syubah == 'AlMutaqien' ? 'selected' : '' }}>AlMutaqien</option>
+                                                    <option value="AlMuhsinin" {{ $pengisi->syubah == 'AlMuhsinin' ? 'selected' : '' }}>AlMuhsinin</option>
+                                                    <option value="AshShobirin" {{ $pengisi->syubah == 'AshShobirin' ? 'selected' : '' }}>AshShobirin</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row">

@@ -35,10 +35,12 @@ class PengisiController extends Controller
     {
         $request->validate([
             "name" => 'required|string|max:50',
+            "syubah" => 'nullable|string|max:50',
             "status" => 'required',
         ]);
         Pengisi::create([
             'name' => $request->name,
+            'syubah' => $request->syubah,
             'status' => $request->status,
         ]);
         return redirect()->route('pengisi.index')->with('success', 'Mudzakir berhasil ditambahkan.');
@@ -72,15 +74,17 @@ class PengisiController extends Controller
     {
          $request->validate([
             'name'      => 'required',
+            'syubah'    => 'nullable|string|max:50',
             'status'   => 'required',
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
-            'status.required'      => 'syubah tidak boleh kosong',
+            'status.required'      => 'Status tidak boleh kosong',
         ]);
         $pengisi = Pengisi::findOrFail($id);
 
             $pengisi->update([
                 'name' => $request->name,
+                'syubah' => $request->syubah,
                 'status' => $request->status,
             ]);
         

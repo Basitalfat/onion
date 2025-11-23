@@ -45,6 +45,7 @@
                                     <tr>
                                         <th width="10%">No</th>
                                         <th>Nama</th>
+                                        <th>Syubah</th>
                                         <th>Status</th>
                                         <th>action</th>
                                     </tr>
@@ -59,6 +60,7 @@
                                                     {{ $item->name }}
                                                 </a>
                                             </td>
+                                            <td>{{ $item->syubah }}</td>
                                             <td>{{ $item->status }}</td>
                                             <td width="15%">
                                                 <a href="{{ route('pengisi.show', $item->id) }}"

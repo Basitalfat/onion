@@ -18,6 +18,19 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="Syubah">Syubah :</label>
+                            <select class="custom-select" id="Syubah" name="syubah">
+                                <option value="" disabled selected>-- Pilih Syubah --</option>
+                                <option value="AshShidiqqin">AshShidiqqin</option>
+                                <option value="AsySyuhada">AsySyuhada</option>
+                                <option value="AshSholihin">AshSholihin</option>
+                                <option value="AlMutaqien">AlMutaqien</option>
+                                <option value="AlMuhsinin">AlMuhsinin</option>
+                                <option value="AshShobirin">AshShobirin</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="Status">Status :</label>
                             <select class="custom-select" id="Status" name="status" required>
                                 <option value="" disabled selected>-- Pilih Status --</option>
@@ -58,6 +71,14 @@
                         </div>
                         <div class="col-6">
                             : {{ $item->name }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            Syubah
+                        </div>
+                        <div class="col-6">
+                            : {{ $item->syubah }}
                         </div>
                     </div>
                     <div class="row">
