@@ -47,6 +47,7 @@
                                         <th>Nama</th>
                                         <th>Nas</th>
                                         <th>Syubah</th>
+                                        <th>Holaqoh</th>
                                         <th>action</th>
                                     </tr>
                                 </thead>
@@ -62,6 +63,7 @@
                                             </td>
                                             <td>{{ $item->nas }}</td>
                                             <td>{{ $item->syubah }}</td>
+                                            <td>{{ $item->holaqoh ? $item->holaqoh->kode_holaqoh : '-' }}</td>
                                             <td width="15%">
                                                 <a href="{{ route('member.show', $item->id) }}"
                                                     class="btn btn-outline-info btn-xs">
@@ -92,6 +94,9 @@
 @push('scripts')
     {{-- CSS DataTables --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -104,12 +109,28 @@
 
     <!-- DataTables Responsive -->
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
             $('#tableUmat').DataTable({
                 responsive: true,
                 pageLength: 10
+            });
+            
+            // Initialize Select2 for holaqoh dropdown
+            $('#holaqoh_id').select2({
+                dropdownParent: $('#modal-member'),
+                placeholder: '-- Pilih Halaqoh --',
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Reset Select2 when modal is closed
+            $('#modal-member').on('hidden.bs.modal', function () {
+                $('#holaqoh_id').val('').trigger('change');
             });
         });
     </script>

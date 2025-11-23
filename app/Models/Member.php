@@ -10,7 +10,7 @@ class Member extends Model
         'name',
         'nas',
         'syubah',
-        
+        'holaqoh_id',
     ];
     public function absensis()
     {
@@ -25,6 +25,11 @@ class Member extends Model
     public function detailHolaqoh()
     {
         return $this->hasMany(DetailHolaqoh::class);
+    }
+
+    public function holaqoh()
+    {
+        return $this->belongsTo(Holaqoh::class, 'holaqoh_id');
     }
 
     public function halaqohs()

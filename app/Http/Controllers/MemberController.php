@@ -20,6 +20,7 @@ class MemberController extends Controller
             "title" => "Data Umat",
             "menuAdminMember" => "menu-open",
             "member"  => Member::all(),
+            "holaqohs" => Holaqoh::orderBy('kode_holaqoh', 'asc')->get(),
             "detailHolaqoh" => DetailHolaqoh::with(['member', 'halaqoh'])->get(),
         );
         return view('admin.member.index', $data);
@@ -46,6 +47,7 @@ class MemberController extends Controller
                 Rule::unique(Member::class, 'nas'),
             ],
             'syubah' => 'required|string',
+            'holaqoh_id' => 'nullable|exists:holaqohs,id',
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
             'nas.required'        => 'Nas tidak boleh kosong',
@@ -53,11 +55,22 @@ class MemberController extends Controller
             'syubah.required'          => 'Syubah tidak boleh kosong',
     ]);
 
-        Member::create([
+        $member = Member::create([
             'name' => $request->name,
             'nas' => $request->nas,
             'syubah' => $request->syubah,
+            'holaqoh_id' => $request->holaqoh_id,
         ]);
+
+        // Auto-save to detail_holaqoh if holaqoh_id provided
+        if ($request->holaqoh_id) {
+            $holaqoh = Holaqoh::find($request->holaqoh_id);
+            DetailHolaqoh::create([
+                'holaqoh_id' => $request->holaqoh_id,
+                'member_id' => $member->id,
+                'syubah' => $holaqoh->syubah,
+            ]);
+        }
 
         return redirect()->route('member.index')->with('success', 'Umat berhasil ditambahkan.');
     }
@@ -70,6 +83,7 @@ class MemberController extends Controller
             "title" => "Detail User",
             "menuAdminMember" => "menu-open",
             "member" => $member,
+            "holaqohs" => Holaqoh::orderBy('kode_holaqoh', 'asc')->get(),
         );
         return view('admin.member.show', $data);
     }
@@ -85,6 +99,7 @@ class MemberController extends Controller
             'name'      => 'required',
             'nas'     => 'required|unique:members,nas,' .$id,
             'syubah'   => 'required|string',
+            'holaqoh_id' => 'nullable|exists:holaqohs,id',
         ],[
             'name.required'         => 'Nama tidak boleh kosong',
             'nas.required'        => 'Nas tidak boleh kosong',
@@ -93,12 +108,40 @@ class MemberController extends Controller
 
         ]);
         $user = Member::findOrFail($id);
+        $oldHolaqohId = $user->holaqoh_id;
 
-            $user->update([
-                'name' => $request->name,
-                'nas' => $request->nas,
-                'syubah' => $request->syubah,
-            ]);
+        $user->update([
+            'name' => $request->name,
+            'nas' => $request->nas,
+            'syubah' => $request->syubah,
+            'holaqoh_id' => $request->holaqoh_id,
+        ]);
+        
+        // Auto-update detail_holaqoh if holaqoh changed
+        if ($oldHolaqohId != $request->holaqoh_id) {
+            // Delete old entry
+            if ($oldHolaqohId) {
+                DetailHolaqoh::where('member_id', $id)
+                    ->where('holaqoh_id', $oldHolaqohId)
+                    ->delete();
+            }
+            
+            // Create new entry
+            if ($request->holaqoh_id) {
+                $holaqoh = Holaqoh::find($request->holaqoh_id);
+                $exists = DetailHolaqoh::where('member_id', $id)
+                    ->where('holaqoh_id', $request->holaqoh_id)
+                    ->exists();
+                    
+                if (!$exists) {
+                    DetailHolaqoh::create([
+                        'holaqoh_id' => $request->holaqoh_id,
+                        'member_id' => $id,
+                        'syubah' => $holaqoh->syubah,
+                    ]);
+                }
+            }
+        }
         
         return redirect()->route('member.index')->with('success', 'Umat berhasil diupdate.');
     }
@@ -134,11 +177,29 @@ class MemberController extends Controller
                     if (
                         isset($row['name'], $row['nas'], $row['syubah'])
                     ) {
-                        Member::create([
+                        // Find holaqoh by kode_holaqoh if provided
+                        $holaqohId = null;
+                        if (isset($row['holaqoh']) && !empty($row['holaqoh'])) {
+                            $holaqoh = Holaqoh::where('kode_holaqoh', $row['holaqoh'])->first();
+                            $holaqohId = $holaqoh ? $holaqoh->id : null;
+                        }
+                        
+                        $member = Member::create([
                             'name'    => $row['name'],
                             'nas'     => $row['nas'],
                             'syubah'  => $row['syubah'],
+                            'holaqoh_id' => $holaqohId,
                         ]);
+                        
+                        // Auto-save to detail_holaqoh if holaqoh_id exists
+                        if ($holaqohId) {
+                            $holaqoh = Holaqoh::find($holaqohId);
+                            DetailHolaqoh::create([
+                                'holaqoh_id' => $holaqohId,
+                                'member_id' => $member->id,
+                                'syubah' => $holaqoh->syubah,
+                            ]);
+                        }
                     }
                 });
     
@@ -146,17 +207,6 @@ class MemberController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['file' => 'Terjadi kesalahan saat membaca file: ' . $e->getMessage()]);
         }
-        SimpleExcelReader::create(storage_path('app/' . $filePath))
-            ->getRows()
-            ->each(function(array $row) {
-                Member::create([
-                    'name'    => $row['name'],
-                    'nas'     => $row['nas'],
-                    'syubah'  => $row['syubah'],
-                ]);
-            });
-
-        return redirect()->route('admin.member.index')->with('success', 'Import berhasil!');
     }
 
     public function destroy($id)

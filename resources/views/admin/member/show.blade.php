@@ -84,11 +84,17 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="holaqoh" class="col-sm-2 col-form-label">Holaqoh</label>
+                                            <label for="holaqoh_id" class="col-sm-2 col-form-label">Holaqoh</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="holaqoh"
-                                                    value="{{ $member->halaqohs->pluck('kode_holaqoh')->implode(', ') ?: 'Belum dipilih' }}"
-                                                    readonly>
+                                                <select class="form-control select2" id="holaqoh_id" name="holaqoh_id">
+                                                    <option value="">-- Pilih Halaqoh --</option>
+                                                    @foreach ($holaqohs as $holaqoh)
+                                                        <option value="{{ $holaqoh->id }}" 
+                                                            {{ $member->holaqoh_id == $holaqoh->id ? 'selected' : '' }}>
+                                                            {{ $holaqoh->kode_holaqoh }} - {{ $holaqoh->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
 
@@ -116,3 +122,22 @@
     <!-- /.content -->
     </div>
 @endsection
+
+@push('scripts')
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for holaqoh dropdown
+            $('#holaqoh_id').select2({
+                placeholder: '-- Pilih Halaqoh --',
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
+@endpush

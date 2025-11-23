@@ -34,6 +34,16 @@
                             </select>
                         </div>
 
+                        <div class="form-group">
+                            <label for="holaqoh_id">Halaqoh (Opsional):</label>
+                            <select class="form-control select2" id="holaqoh_id" name="holaqoh_id">
+                                <option value="">-- Pilih Halaqoh --</option>
+                                @foreach ($holaqohs as $holaqoh)
+                                    <option value="{{ $holaqoh->id }}">{{ $holaqoh->kode_holaqoh }} - {{ $holaqoh->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
