@@ -75,3 +75,37 @@
     </div>
     @include('mudir.tausiyah.modal')
 @endsection
+
+@push('scripts')
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for holaqoh dropdown
+            $('#holaqoh_id').select2({
+                dropdownParent: $('#modal-tausiyah'),
+                placeholder: '-- Pilih Halaqoh --',
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Initialize Select2 for pengisi dropdown
+            $('#pengisi_id').select2({
+                dropdownParent: $('#modal-tausiyah'),
+                placeholder: '-- Pilih Pengisi --',
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Reset Select2 when modal is closed
+            $('#modal-tausiyah').on('hidden.bs.modal', function () {
+                $('#holaqoh_id').val('').trigger('change');
+                $('#pengisi_id').val('').trigger('change');
+            });
+        });
+    </script>
+@endpush

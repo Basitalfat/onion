@@ -129,10 +129,10 @@
                             <input type="hidden" name="holaqoh_id" value="{{ $holaqoh->id }}">
                             <div class="form-group">
                                 <label for="member_id">Pilih Nama:</label>
-                                <select name="member_id" class="form-control" required>
+                                <select name="member_id" id="member_id" class="form-control select2" required>
                                     <option value="">-- Pilih Member --</option>
                                     @foreach ($members as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->syubah }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -151,3 +151,28 @@
         <!-- /.modal-dialog -->
     </div>
 @endsection
+
+@push('scripts')
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for member dropdown
+            $('#member_id').select2({
+                dropdownParent: $('#modal-holaqoh'),
+                placeholder: '-- Pilih Member --',
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Reset Select2 when modal is closed
+            $('#modal-holaqoh').on('hidden.bs.modal', function () {
+                $('#member_id').val('').trigger('change');
+            });
+        });
+    </script>
+@endpush

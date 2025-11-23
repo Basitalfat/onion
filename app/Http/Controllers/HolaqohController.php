@@ -48,12 +48,21 @@ class HolaqohController extends Controller
     public function show($id)
     {
         $holaqoh = Holaqoh::findOrFail($id);
+        
+        // If admin, show all members. Otherwise, filter by user's syubah
+        if (Auth::user()->role === 'admin') {
+            $members = Member::orderBy('name', 'asc')->get();
+        } else {
+            $members = Member::where('syubah', Auth::user()->syubah)
+                            ->orderBy('name', 'asc')
+                            ->get();
+        }
+        
         $data = array(
             "title" => "Edit Data Halaqoh",
             "menuAdminHolaqoh" => "menu-open",
-            "holaqoh"  => Holaqoh::findOrFail($id),
-            // "members" => Member::where('syubah', $holaqoh->syubah)->get(),
-            "members" => Member::where('syubah', Auth::user()->syubah)->get(),
+            "holaqoh"  => $holaqoh,
+            "members" => $members,
             "detail_holaqoh" => DetailHolaqoh::with('member')
                             ->where('holaqoh_id', $id)
                             ->get(),
