@@ -73,14 +73,14 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item {{ $menuSyubahLaporan ?? '' }}">
+                    {{-- <li class="nav-item {{ $menuSyubahLaporan ?? '' }}">
                         <a href="{{ route('absensi.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Laporan Tausiyah
                             </p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item has-treeview {{ $menuJamiahLaporan ?? '' }}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
