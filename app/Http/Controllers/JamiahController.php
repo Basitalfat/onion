@@ -295,9 +295,10 @@ class JamiahController extends Controller
                 $izin = $absensi->where('status', 'izin')->count();
                 $tanpaIzin = $absensi->where('status', 'tanpa_keterangan')->count();
                 $hadir = $absensi->where('status', 'hadir')->count();
-                // Sakit tidak dihitung dalam absen (asumsi sama seperti show())
+                $sakit = $absensi->where('status', 'sakit')->count();
 
-                $wajib = $izin + $tanpaIzin + $hadir;
+                // Jumlah wajib hadir = (jumlah ahlu * jumlah liqo) - jumlah sakit
+                $wajib = ($jmlAhlu * 1) - $sakit;
 
                 $totalIzin += $izin;
                 $totalTanpaIzin += $tanpaIzin;
@@ -308,6 +309,14 @@ class JamiahController extends Controller
             $totalAbsen = $totalIzin + $totalTanpaIzin;
             $persentase = $totalWajib > 0 ? number_format(($totalAbsen / $totalWajib) * 100, 2) : 0;
 
+            // Hitung jumlah sakit total
+            $totalSakit = 0;
+            foreach ($group as $tausiyah) {
+                $absensi = Absensi::where('tausiyah_id', $tausiyah->id)->get();
+                $sakit = $absensi->where('status', 'sakit')->count();
+                $totalSakit += $sakit;
+            }
+            
             return [
                 'kode' => $kode,
                 'jumlah_ahlu' => $totalAhlu,
@@ -315,6 +324,7 @@ class JamiahController extends Controller
                 'jumlah_wajib' => $totalWajib,
                 'izin' => $totalIzin,
                 'tanpa_izin' => $totalTanpaIzin,
+                'sakit' => $totalSakit,
                 'absen_total' => $totalAbsen,
                 'jumlah' => $totalHadir,
                 'persentase' => $persentase,
