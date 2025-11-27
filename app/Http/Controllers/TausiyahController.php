@@ -98,20 +98,41 @@ class TausiyahController extends Controller
      */
     public function show(string $id)
 {
-    $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+    // Untuk admin, tampilkan semua tausiyah. Untuk mudir, hanya tampilkan tausiyah miliknya
+    if (Auth::user()->role === 'admin') {
+        $tausiyah = Tausiyah::findOrFail($id);
+    } else {
+        $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+    }
 
-    // Ambil absensi lengkap dengan data member (filtered by syubah dan user)
-        $absensis = Absensi::with('member')
-    ->where('tausiyah_id', $tausiyah->id)
-    ->orderBy('created_at', 'desc')
-    ->get();
+    // Ambil absensi lengkap dengan data member
+    $absensis = Absensi::with('member')
+        ->where('tausiyah_id', $tausiyah->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
 
+    // Hitung persentase absensi
+    $jumlahIzin = $absensis->where('status', 'izin')->count();
+    $jumlahTanpaKeterangan = $absensis->where('status', 'tanpa_keterangan')->count();
+    $jumlahHadir = $absensis->where('status', 'hadir')->count();
+    $jumlahSakit = $absensis->where('status', 'sakit')->count();
+    
+    $jml = $jumlahIzin + $jumlahTanpaKeterangan;
+    $jwh = $jumlahHadir + $jumlahIzin + $jumlahTanpaKeterangan;
+    
+    $persentase_absensi = $jwh > 0 ? round(($jml / $jwh) * 100, 2) : 0;
 
     $data = [
         "title" => "Detail Tausiyah & Kehadiran",
         "menuMudirTausiyah" => "menu-open",
         "tausiyah" => $tausiyah,
         "absensis" => $absensis,
+        "persentase_absensi" => $persentase_absensi,
+        "jumlahHadir" => $jumlahHadir,
+        "jumlahIzin" => $jumlahIzin,
+        "jumlahSakit" => $jumlahSakit,
+        "jumlahTanpaKeterangan" => $jumlahTanpaKeterangan,
+        "jwh" => $jwh,
     ];
 
     return view('mudir.tausiyah.show', $data);
@@ -122,7 +143,12 @@ class TausiyahController extends Controller
      */
     public function edit(string $id)
     {
-        $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        // Untuk admin, tampilkan semua tausiyah. Untuk mudir, hanya tampilkan tausiyah miliknya
+        if (Auth::user()->role === 'admin') {
+            $tausiyah = Tausiyah::findOrFail($id);
+        } else {
+            $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        }
         // Implement edit logic here if needed
     }
 
@@ -131,7 +157,12 @@ class TausiyahController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        // Untuk admin, tampilkan semua tausiyah. Untuk mudir, hanya tampilkan tausiyah miliknya
+        if (Auth::user()->role === 'admin') {
+            $tausiyah = Tausiyah::findOrFail($id);
+        } else {
+            $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        }
         // Implement update logic here if needed
     }
 
@@ -140,7 +171,12 @@ class TausiyahController extends Controller
      */
     public function destroy(string $id)
     {
-        $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        // Untuk admin, tampilkan semua tausiyah. Untuk mudir, hanya tampilkan tausiyah miliknya
+        if (Auth::user()->role === 'admin') {
+            $tausiyah = Tausiyah::findOrFail($id);
+        } else {
+            $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        }
         $tausiyah->delete();
         return redirect()->route('tausiyah.index')->with('success', 'Tausiyah berhasil dihapus!');
     }

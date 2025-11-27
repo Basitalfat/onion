@@ -31,18 +31,72 @@
                                             </small>
                                         </div>
 
-                                        <p class="mb-1">
-                                            <i class="fas fa-user-edit mr-1"></i>
-                                            <strong>Pengisi:</strong> {{ $tausiyah->pengisi->name }}
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="fas fa-map-marker-alt mr-1"></i>
-                                            <strong>Tempat:</strong> {{ $tausiyah->tempat }}
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="fas fa-newspaper"></i>
-                                            <strong>Media:</strong> {{ $tausiyah->media }}
-                                        </p>
+                                        <!-- Row 1 -->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-user-edit mr-1"></i>
+                                                    <strong>Pengisi:</strong> {{ $tausiyah->pengisi->name }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                                    <strong>Tempat:</strong> {{ $tausiyah->tempat }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-newspaper mr-1"></i>
+                                                    <strong>Media:</strong> {{ $tausiyah->media }}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 2 -->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-percentage mr-1"></i>
+                                                    <strong>Persentase Absensi:</strong> {{ $persentase_absensi }}%
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-users mr-1"></i>
+                                                    <strong>Jumlah Hadir:</strong> {{ $jumlahHadir }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-user-check mr-1"></i>
+                                                    <strong>Izin:</strong> {{ $jumlahIzin }}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 3 -->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-user-times mr-1"></i>
+                                                    <strong>Tanpa Keterangan:</strong> {{ $jumlahTanpaKeterangan }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="mb-1">
+                                                    <i class="fas fa-user-md mr-1"></i>
+                                                    <strong>Sakit:</strong> {{ $jumlahSakit }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p class="mb-0">
+                                                    <i class="fas fa-calculator mr-1"></i>
+                                                    <strong>Jumlah Wajib Hadir:</strong> {{ $jwh }}
+                                                </p>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
