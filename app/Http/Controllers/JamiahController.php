@@ -80,7 +80,7 @@ class JamiahController extends Controller
     {
         $syubah = $request->input('syubah');
 
-        $tausiyah = Tausiyah::with('user')
+        $tausiyah = Tausiyah::with(['user', 'holaqoh', 'pengisi'])
             ->when($syubah, function ($query) use ($syubah) {
                 $query->whereHas('user', function ($q) use ($syubah) {
                     $q->where('syubah', $syubah);
@@ -90,7 +90,9 @@ class JamiahController extends Controller
             ->get();
 
             return view('jamiah.index', [
-                'title' => 'Data Tausiyah',
+                'title' => 'Rekap Tausiyah Per Liqo',
+                'menuJamiahLaporan' => 'menu-open',
+                'subMenuPerLiqo' => 'active',
                 'tausiyah' => $tausiyah
             ]);
     }

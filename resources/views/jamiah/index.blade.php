@@ -69,7 +69,7 @@
                                                     {{ $item->tempat }}
                                                 </a>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->bulan }}</td>
                                             <td>{{ $item->holaqoh->kode_holaqoh }}</td>
                                             <td>
                                                 {{ $item->user->name ?? '-' }}

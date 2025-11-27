@@ -21,10 +21,10 @@ class TausiyahController extends Controller
     {
         if (Auth::user()->role === 'admin') {
             // Jika admin, ambil semua data tausiyah
-            $tausiyah = Tausiyah::with('holaqoh')->get();
+            $tausiyah = Tausiyah::with('holaqoh')->orderBy('created_at', 'desc')->get();
         } else {
             // Jika mudir, ambil data tausiyah milik user yang login
-            $tausiyah = Tausiyah::with('holaqoh')->where('user_id', Auth::id())->get();
+            $tausiyah = Tausiyah::with('holaqoh')->where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         }
 
         $data = array(
@@ -98,11 +98,12 @@ class TausiyahController extends Controller
      */
     public function show(string $id)
 {
-    $tausiyah = Tausiyah::findOrFail($id);
+    $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
 
-    // Ambil absensi lengkap dengan data member (filtered by syubah)
+    // Ambil absensi lengkap dengan data member (filtered by syubah dan user)
         $absensis = Absensi::with('member')
     ->where('tausiyah_id', $tausiyah->id)
+    ->orderBy('created_at', 'desc')
     ->get();
 
 
@@ -121,7 +122,8 @@ class TausiyahController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        // Implement edit logic here if needed
     }
 
     /**
@@ -129,7 +131,8 @@ class TausiyahController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        // Implement update logic here if needed
     }
 
     /**
@@ -137,7 +140,8 @@ class TausiyahController extends Controller
      */
     public function destroy(string $id)
     {
-        Tausiyah::destroy($id);
+        $tausiyah = Tausiyah::where('user_id', Auth::id())->findOrFail($id);
+        $tausiyah->delete();
         return redirect()->route('tausiyah.index')->with('success', 'Tausiyah berhasil dihapus!');
     }
 }
