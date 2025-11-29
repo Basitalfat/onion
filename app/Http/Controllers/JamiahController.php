@@ -331,20 +331,97 @@ class JamiahController extends Controller
             ];
         })->values();
 
+        // Get the syubah filter value
+        $syubahFilter = $request->input('syubah');
+
+        // Calculate new attendance recap data
+        // Terjadwal: Count of pengisi with status syubah/jamiah with same syubah id based on filter
+        $terjadwalSyubah = Pengisi::where('status', 'syubah')
+            ->when($syubahFilter, function ($query) use ($syubahFilter) {
+                $query->where('syubah', $syubahFilter);
+            })
+            ->count();
+            
+        $terjadwalJamiah = Pengisi::where('status', 'jamiah')
+            ->when($syubahFilter, function ($query) use ($syubahFilter) {
+                $query->where('syubah', $syubahFilter);
+            })
+            ->count();
+            
+        $terjadwalTotal = $terjadwalSyubah + $terjadwalJamiah;
+
+        // Get all tausiyah IDs for the filtered syubah
+        $tausiyahIds = $tausiyahs->pluck('id');
+
+        // Hadir: Count of pengisi with status syubah/jamiah that exist in absensi
+        $hadirSyubah = Pengisi::where('status', 'syubah')
+            ->when($syubahFilter, function ($query) use ($syubahFilter) {
+                $query->where('syubah', $syubahFilter);
+            })
+            ->whereHas('tausiyahs', function ($query) use ($tausiyahIds) {
+                $query->whereIn('id', $tausiyahIds);
+            })
+            ->count();
+            
+        $hadirJamiah = Pengisi::where('status', 'jamiah')
+            ->when($syubahFilter, function ($query) use ($syubahFilter) {
+                $query->where('syubah', $syubahFilter);
+            })
+            ->whereHas('tausiyahs', function ($query) use ($tausiyahIds) {
+                $query->whereIn('id', $tausiyahIds);
+            })
+            ->count();
+            
+        $hadirTotal = $hadirSyubah + $hadirJamiah;
+
+        // Absen: Count of pengisi with status syubah/jamiah that do NOT exist in absensi
+        $absenSyubah = $terjadwalSyubah - $hadirSyubah;
+        $absenJamiah = $terjadwalJamiah - $hadirJamiah;
+        $absenTotal = $absenSyubah + $absenJamiah;
+
+        // Percentage: Absen rows divided by Terjadwal rows
+        $percentageSyubah = $terjadwalSyubah > 0 ? number_format(($absenSyubah / $terjadwalSyubah) * 100, 2) : 0;
+        $percentageJamiah = $terjadwalJamiah > 0 ? number_format(($absenJamiah / $terjadwalJamiah) * 100, 2) : 0;
+        $percentageTotal = $terjadwalTotal > 0 ? number_format(($absenTotal / $terjadwalTotal) * 100, 2) : 0;
+
+        // Prepare the new data structure for the view
+        $attendanceRecap = [
+            'terjadwal' => [
+                'syubah' => $terjadwalSyubah,
+                'jamiah' => $terjadwalJamiah,
+                'total' => $terjadwalTotal
+            ],
+            'hadir' => [
+                'syubah' => $hadirSyubah,
+                'jamiah' => $hadirJamiah,
+                'total' => $hadirTotal
+            ],
+            'absen' => [
+                'syubah' => $absenSyubah,
+                'jamiah' => $absenJamiah,
+                'total' => $absenTotal
+            ],
+            'percentage' => [
+                'syubah' => $percentageSyubah,
+                'jamiah' => $percentageJamiah,
+                'total' => $percentageTotal
+            ]
+        ];
+
         // =======================
         // Data Lain Bisa Disesuaikan
         // =======================
         
         // Simulasi Rekap Mudzakkir (ubah jika punya struktur relasi sebenarnya)
         $dataMudzakkir = [
-            'syubah' => Pengisi::where('status', 'syubah')->count(),
-            'jamiah' => Pengisi::where('status', 'jamiah')->count(),
-            'total' => Pengisi::whereIn('status', ['syubah', 'jamiah'])->count(),
+            'syubah' => $terjadwalSyubah,
+            'jamiah' => $terjadwalJamiah,
+            'total' => $terjadwalTotal,
             'frekuensi' => 'MJ01(1x), MJ02(2x)',
-            'terjadwal' => 10,
-            'hadir' => 8,
-            'absen' => 2,
-            'persentase' => 20.00
+            'terjadwal' => $terjadwalTotal,
+            'hadir' => $hadirTotal,
+            'absen' => $absenTotal,
+            'persentase' => $percentageTotal
         ];
 
         // Simulasi Gabungan (jika ada data nyata bisa ganti)
@@ -387,9 +464,11 @@ class JamiahController extends Controller
         $pdf = Pdf::loadView('jamiah.export', [
             'halaqohReguler' => $halaqohReguler,
             'mudzakkir' => $dataMudzakkir,
+            'attendanceRecap' => $attendanceRecap, // New data for the attendance recap table
             'hijri' => $this->gregorianToHijri(),
             'bulan' => $hijri['bulan'],
             'tahun' => $hijri['tahun'],
+            'syubahFilter' => $syubahFilter, // Pass the filter value to the view
             'syubah' => $syubah,
             // 'halaqohGabungan' => $halaqohGabungan
         ])->setPaper('A4', 'portrait');

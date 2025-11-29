@@ -60,14 +60,95 @@
         .header {
             text-align: center;
         }
+
+        /* Add grey background for headers */
+        thead th,
+        tfoot th {
+            background-color: #d3d3d3;
+        }
+
+        /* Row headers (leftmost column) */
+        tbody th {
+            background-color: #d3d3d3;
+            font-weight: bold;
+        }
+
+        /* Header with logo and text */
+        .header {
+            display: flex;
+            align-items: center;
+            /* Sejajarkan logo + teks vertikal */
+            position: relative;
+            min-height: 80px;
+            padding-bottom: 10px;
+        }
+
+        .logo-container {
+            width: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            max-height: 60px;
+        }
+
+        .header-text {
+            display: flex;
+            /* penting! */
+            flex-direction: column;
+            justify-content: center;
+            /* tengah vertikal */
+            text-align: right;
+            flex-grow: 1;
+            padding: 0 20px;
+        }
+
+        .header-title,
+        .header-subtitle {
+            margin: 0;
+        }
+
+        .header-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14px;
+            margin-top: 3px;
+        }
+
+        .header-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #000;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="header">
-        <p><strong>Imarotul Muslimin</strong><br>TADBIR SYU'BAH {{ $syubah }}</p>
-        <p><strong>IKHBAR SYAHRIYAH QISMU BINA</strong><br>No. Syu.../U/.../Xx....</p>
+        <div class="logo-container">
+            <img src="{{ base_path('public/LTE/dist/img/logo.png') }}" alt="Logo">
+        </div>
+        <div class="header-text">
+            <div class="header-title">Imarotul Muslimin</div>
+            <div class="header-subtitle">TADBIR SYU'BAH {{ $syubah }}</div>
+        </div>
+        <div class="header-line"></div>
+    </div>
+
+    <div style="text-align: center; margin: 10px 0 20px 0;">
+        <p><strong><u>IKHBAR SYAHRIYAH QISMU BINA</u></strong><br>No. Syu.../U/.../Xx....</p>
         <p>Syahr : {{ strtoupper($bulan) }} {{ $tahun }} H</p>
     </div>
 
@@ -109,31 +190,42 @@
         </tbody>
     </table>
 
-    {{-- Tabel 2: Rekap Mudzakkir --}}
+    {{-- Combined Table: Rekap Kehadiran and Kode Mudzakkir --}}
     <table>
         <thead>
             <tr>
-                <th colspan="5">Rekap Absensi Mudzakkir</th>
-            </tr>
-            <tr>
-                <th>Mudz. Syu’bah</th>
-                <th>Mudz. Jam’iah</th>
-                <th>Total</th>
-                <th>Kode Mudzakkir Jam’iah Absen / Frekuensi</th>
                 <th></th>
+                <th>Mudz. Syu’bah</th>
+                <th>Mudz. Jami’ah</th>
+                <th>Total</th>
+                <th>Kode Mudzakkir Jami’ah Absen / Frekuensi</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ $mudzakkir['syubah'] }}</td>
-                <td>{{ $mudzakkir['jamiah'] }}</td>
-                <td>{{ $mudzakkir['total'] }}</td>
-                <td colspan="2">{{ $mudzakkir['frekuensi'] }}</td>
+                <th>Terjadwal</th>
+                <td>{{ $attendanceRecap['terjadwal']['syubah'] }}</td>
+                <td>{{ $attendanceRecap['terjadwal']['jamiah'] }}</td>
+                <td>{{ $attendanceRecap['terjadwal']['total'] }}</td>
+                <td rowspan="4">&nbsp;</td>
             </tr>
             <tr>
-                <td colspan="5" class="text-left">Terjadwal: {{ $mudzakkir['terjadwal'] }} | Hadir:
-                    {{ $mudzakkir['hadir'] }} | Absen: {{ $mudzakkir['absen'] }} | Persentase:
-                    {{ $mudzakkir['persentase'] }}%</td>
+                <th>Hadir</th>
+                <td>{{ $attendanceRecap['hadir']['syubah'] }}</td>
+                <td>{{ $attendanceRecap['hadir']['jamiah'] }}</td>
+                <td>{{ $attendanceRecap['hadir']['total'] }}</td>
+            </tr>
+            <tr>
+                <th>Absen</th>
+                <td>{{ $attendanceRecap['absen']['syubah'] }}</td>
+                <td>{{ $attendanceRecap['absen']['jamiah'] }}</td>
+                <td>{{ $attendanceRecap['absen']['total'] }}</td>
+            </tr>
+            <tr>
+                <th>Prosentase</th>
+                <td>{{ $attendanceRecap['percentage']['syubah'] }}%</td>
+                <td>{{ $attendanceRecap['percentage']['jamiah'] }}%</td>
+                <td>{{ $attendanceRecap['percentage']['total'] }}%</td>
             </tr>
         </tbody>
     </table>
@@ -184,10 +276,10 @@
     <br><br>
     <table class="signature" style="border: none; margin-top: 50px;">
         <tr>
-            <td>Daar .............., ........... {{ $tahun }} H</td>
+            <td>Daar {{ $syubah }}, {{ strtoupper($bulan) }} {{ $tahun }} H</td>
         </tr>
         <tr>
-            <td><strong>Imarotul Muslimin</strong><br>Tadbir Syu’bah ..........</td>
+            <td><strong>Imarotul Muslimin</strong><br>Tadbir Syu’bah {{ $syubah }}</td>
         </tr>
         <tr>
             <td>
