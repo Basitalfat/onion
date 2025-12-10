@@ -57,18 +57,17 @@
                 <!-- Main row -->
 
                 <div class="row">
-                    <!-- Chart Pie Admin vs Pengguna -->
+                    <!-- Chart Pie Diagram berdasarkan Syubah -->
                     <section class="col-lg-6 connectedSortable">
                         <div class="card">
                             <div class="card-header bg-info">
-                                <h3 class="card-title">Diagram Admin vs Pengguna</h3>
+                                <h3 class="card-title">Diagram berdasarkan Syubah</h3>
                             </div>
                             <div class="card-body">
                                 <canvas id="userChart" width="400" height="400"></canvas>
                             </div>
                         </div>
                     </section>
-
                     <!-- Chart Line Pengguna per Hari -->
                     <section class="col-lg-6 connectedSortable">
                         <div class="card">
@@ -148,22 +147,30 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Chart Pie Admin vs Pengguna
+        // Chart Pie Diagram berdasarkan Syubah
         const ctx1 = document.getElementById('userChart').getContext('2d');
         const userChart = new Chart(ctx1, {
             type: 'pie',
             data: {
-                labels: ['Admin', 'Pengguna'],
+                labels: {!! json_encode($membersBySyubah->pluck('syubah')) !!},
                 datasets: [{
-                    label: 'Jumlah User',
-                    data: [{{ $jumlahAdmin }}, {{ $jumlahPengguna }}],
+                    label: 'Jumlah Umat',
+                    data: {!! json_encode($membersBySyubah->pluck('total')) !!},
                     backgroundColor: [
-                        'rgba(23, 162, 184)', // Admin (info)
-                        'rgba(40, 167, 69)' // Pengguna (success)
+                        'rgba(23, 162, 184)', // info
+                        'rgba(40, 167, 69)', // success
+                        'rgba(255, 193, 7)', // warning
+                        'rgba(108, 117, 125)', // secondary
+                        'rgba(220, 53, 69)', // danger
+                        'rgba(0, 123, 255)' // primary
                     ],
                     borderColor: [
                         'rgba(23, 162, 184, 1)',
-                        'rgba(40, 167, 69, 1)'
+                        'rgba(40, 167, 69, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(108, 117, 125, 1)',
+                        'rgba(220, 53, 69, 1)',
+                        'rgba(0, 123, 255, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -177,7 +184,7 @@
                 }
             }
         });
-
+        
         // Chart Line Pengguna per Hari
         const ctx2 = document.getElementById('userPerhari').getContext('2d');
         const userPerhari = new Chart(ctx2, {

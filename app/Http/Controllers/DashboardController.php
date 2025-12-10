@@ -19,12 +19,18 @@ class DashboardController extends Controller
         ->orderBy('date', 'ASC')
         ->get();
 
+        // Get member counts grouped by syubah
+        $membersBySyubah = Member::select('syubah', DB::raw('count(*) as total'))
+            ->groupBy('syubah')
+            ->get();
+
         $data = array(
             "title" => "Dashboard",
             "menuAdminDashboard" => "menu-open",
             "jumlahAdmin" =>User::where('role', 'admin')->count(),
             "jumlahPengguna" =>User::whereNot('role', 'admin')->count(),
             "jumlahMember" =>Member::all()->count(),
+            "membersBySyubah" => $membersBySyubah,
             "usersPerDay" => $usersPerDay
         );
         return view('dashboard', $data);
