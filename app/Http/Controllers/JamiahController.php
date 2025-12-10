@@ -471,7 +471,7 @@ class JamiahController extends Controller
             'bulan' => $bulan,
             'tahun' => $tahun,
             'syubah' => $syubahFilter
-        ])->setPaper('a4', 'landscape');
+        ])->setPaper('a4', 'portrait');
 
         return $pdf->download('rekap_tausiyah.pdf');
     }

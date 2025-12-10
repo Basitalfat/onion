@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .title {
@@ -30,7 +30,7 @@
 
         th,
         td {
-            padding: 4px;
+            padding: 3px;
             text-align: center;
         }
 
@@ -80,13 +80,15 @@
             /* Sejajarkan logo + teks vertikal */
             position: relative;
             min-height: 80px;
-            padding-bottom: 10px;
+            padding: 10px 0;
         }
 
         .logo-container {
             width: 80px;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
+            align-self: center;
         }
 
         .logo-container img {
@@ -104,6 +106,7 @@
             text-align: right;
             flex-grow: 1;
             padding: 0 20px;
+            align-self: center;
         }
 
         .header-title,
@@ -115,12 +118,16 @@
             font-family: 'Times New Roman', Times, serif;
             font-size: 18px;
             font-weight: bold;
+            margin: 0;
         }
 
         .header-subtitle {
             font-family: 'Times New Roman', Times, serif;
             font-size: 14px;
             margin-top: 3px;
+            border-bottom: 3px solid #000;
+            padding-bottom: 5px;
+            width: 100%;
         }
 
         .header-line {
@@ -131,21 +138,36 @@
             height: 1px;
             background-color: #000;
         }
+
+        table.no-border,
+        table.no-border tr,
+        table.no-border td {
+            border: none !important;
+            outline: none !important;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="header">
-        <div class="logo-container">
-            <img src="{{ base_path('public/LTE/dist/img/logo.png') }}" alt="Logo">
-        </div>
-        <div class="header-text">
-            <div class="header-title">Imarotul Muslimin</div>
-            <div class="header-subtitle">TADBIR SYU'BAH {{ $syubah }}</div>
-        </div>
-        <div class="header-line"></div>
-    </div>
+    <table class="no-border" width="100%" style="border-collapse: collapse; border: 1px solid white;">
+        <tr>
+            <td style="width: 80px;">
+                <img src="{{ public_path('logo.png') }}" style="width: 70px;">
+            </td>
+
+            <td style="text-align: right; vertical-align: middle;">
+                <div style="font-size: 20px; font-weight: bold; margin-bottom: -5px;">
+                    Imarotul Muslimin
+                </div>
+                <div style="font-size: 14px;">
+                    TADBIR SYU'BAH AshShiddiqin
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <hr style="border: 1px solid black; margin-top: 10px;">
 
     <div style="text-align: center; margin: 10px 0 20px 0;">
         <p><strong><u>IKHBAR SYAHRIYAH QISMU BINA</u></strong><br>No. Syu.../U/.../Xx....</p>
