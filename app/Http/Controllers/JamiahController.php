@@ -185,15 +185,19 @@ class JamiahController extends Controller
     public function perIndividu(Request $request)
     {
         // Validasi input tahun (format YYYY)
-        $tahun = $request->input('tahun', date('Y'));
-        if (!preg_match('/^\d{4}$/', $tahun)) {
-            $tahun = date('Y');
+        $tahun = $request->input('tahun');
+        if (!$tahun || !preg_match('/^\d{4}$/', $tahun)) {
+            // If no year is provided or invalid, use the year of the latest attendance record
+            $latestAbsensi = Absensi::orderBy('created_at', 'desc')->first();
+            $tahun = $latestAbsensi ? date('Y', strtotime($latestAbsensi->created_at)) : date('Y');
         }
 
         // Validasi input bulan (format 01-12)
-        $bulan = $request->input('bulan', date('m'));
-        if (!preg_match('/^(0[1-9]|1[0-2])$/', $bulan)) {
-            $bulan = date('m');
+        $bulan = $request->input('bulan');
+        if (!$bulan || !preg_match('/^(0[1-9]|1[0-2])$/', $bulan)) {
+            // If no month is provided or invalid, use the month of the latest attendance record
+            $latestAbsensi = Absensi::orderBy('created_at', 'desc')->first();
+            $bulan = $latestAbsensi ? date('m', strtotime($latestAbsensi->created_at)) : date('m');
         }
 
         // Menampilkan default seluruh umat
@@ -223,12 +227,18 @@ class JamiahController extends Controller
             $jumlah_izin = $absensis->where('status', 'izin')->count();
             $jumlah_sakit = $absensis->where('status', 'sakit')->count();
             $jumlah_tanpa_keterangan = $absensis->where('status', 'tanpa_keterangan')->count();
+            
+            // Total absensi (izin + tanpa keterangan)
             $total = $jumlah_izin + $jumlah_tanpa_keterangan;
-            $jwh = $jumlah_hadir + $jumlah_izin + $jumlah_tanpa_keterangan;
+            
+            // Jumlah wajib hadir (hadir + izin + sakit + tanpa keterangan)
+            $jwh = $jumlah_hadir + $jumlah_izin + $jumlah_sakit + $jumlah_tanpa_keterangan;
+            
+            // Jumlah absen (izin + tanpa keterangan)
             $jml = $jumlah_izin + $jumlah_tanpa_keterangan;
 
-            // Hitung persentase kehadiran
-            $persentase = $jml > 0 ? round(($jml / $jwh) * 100, 2) : 0;
+            // Hitung persentase kehadiran (absen / wajib hadir * 100)
+            $persentase = $jwh > 0 ? round(($jml / $jwh) * 100, 2) : 0;
 
             $rekap[] = [
                 'member' => $member,
@@ -241,8 +251,8 @@ class JamiahController extends Controller
             ];
         }
 
-        $tahun = $request->filled('tahun') ? $request->input('tahun') : null;
-        $bulan = $request->filled('bulan') ? $request->input('bulan') : null;
+        $tahun = $request->filled('tahun') ? $request->input('tahun') : $tahun;
+        $bulan = $request->filled('bulan') ? $request->input('bulan') : $bulan;
         $syubah = $request->filled('syubah') ? $request->input('syubah') : null;
         
         $syubahOptions = ['AshShidiqqin', 'AsySyuhada', 'AshSholihin', 'AlMutaqien', 'AlMuhsinin', 'AshShobirin'];
@@ -451,28 +461,19 @@ class JamiahController extends Controller
         $bulan = $hijri['bulan'];
         $tahun = $hijri['tahun'];
 
-        $kodePertama = $halaqohReguler->first()['kode'] ?? null;
-
-        $holaqoh = null;
-        $syubah = null;
-
-        if ($kodePertama) {
-            $holaqoh = \App\Models\Holaqoh::where('kode_holaqoh', $kodePertama)->first();
-            $syubah = $holaqoh ? $holaqoh->syubah : 'Tidak ditemukan';
-}
-        // Generate PDF
         $pdf = Pdf::loadView('jamiah.export', [
+            'title' => 'Rekap Tausiyah',
+            'tausiyahs' => $tausiyahs,
             'halaqohReguler' => $halaqohReguler,
-            'mudzakkir' => $dataMudzakkir,
-            'attendanceRecap' => $attendanceRecap, // New data for the attendance recap table
-            'hijri' => $this->gregorianToHijri(),
-            'bulan' => $hijri['bulan'],
-            'tahun' => $hijri['tahun'],
-            'syubahFilter' => $syubahFilter, // Pass the filter value to the view
-            'syubah' => $syubah,
-            // 'halaqohGabungan' => $halaqohGabungan
-        ])->setPaper('A4', 'portrait');
+            'attendanceRecap' => $attendanceRecap,
+            'dataMudzakkir' => $dataMudzakkir,
+            // 'halaqohGabungan' => $halaqohGabungan,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'syubah' => $syubahFilter
+        ])->setPaper('a4', 'landscape');
 
-        return $pdf->stream('laporan_tausiyah.pdf');
+        return $pdf->download('rekap_tausiyah.pdf');
     }
+   
 }

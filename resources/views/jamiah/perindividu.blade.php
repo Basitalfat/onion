@@ -84,6 +84,7 @@
                                         <th>Izin</th>
                                         <th>Sakit</th>
                                         <th>Tanpa Keterangan</th>
+                                        <th>Total Kehadiran</th>
                                         <th>Total Absensi</th>
                                         <th>Persentase Absensi (%)</th>
                                     </tr>
@@ -96,12 +97,13 @@
                                             <td>{{ $item['izin'] }}</td>
                                             <td>{{ $item['sakit'] }}</td>
                                             <td>{{ $item['tanpa_keterangan'] }}</td>
-                                            <td>{{ $item['total'] }}</td>
+                                            <td>{{ $item['hadir'] + $item['izin'] + $item['sakit'] }}</td>
+                                            <td>{{ $item['izin'] + $item['tanpa_keterangan'] }}</td>
                                             <td>{{ $item['persentase'] }}</td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">Data tidak ditemukan.</td>
+                                            <td colspan="8" class="text-center">Data tidak ditemukan.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -120,3 +122,21 @@
     <!-- /.content -->
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTables
+            if ($.fn.DataTable.isDataTable('#example1')) {
+                $('#example1').DataTable().destroy();
+            }
+            
+            $('#example1').DataTable({
+                "pageLength": 10, // Show 10 records per page
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
+                }
+            });
+        });
+    </script>
+@endpush
