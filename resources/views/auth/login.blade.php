@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('sliding/style.css') }}" />
-    <title>Sign in & Sign up Form</title>
+    <title>Masuk & Daftar</title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
             <div class="signin-signup">
                 <form method="POST" action="{{ route('login') }}" class="sign-in-form">
                     @csrf
-                    <h2 class="title">Sign in</h2>
+                    <h2 class="title">Masuk</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <input type="email" placeholder="Email" name="email" :value="old('email')" required
@@ -32,7 +32,7 @@
 
                 </form>
                 <form action="#" class="sign-up-form">
-                    <h2 class="title">Sign up</h2>
+                    <h2 class="title">Daftar</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <input type="text" placeholder="Username" />
@@ -55,26 +55,24 @@
         <div class="panels-container">
             <div class="panel left-panel">
                 <div class="content">
-                    <h3>New here ?</h3>
+                    <h3>Belum Punya Akun?</h3>
                     <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Debitis, ex ratione. Aliquid!
+                        Apakah anda belum punya akun?
                     </p>
                     <button class="btn transparent" id="sign-up-btn">
-                        Sign up
+                        Daftar
                     </button>
                 </div>
                 <img src="{{ asset('sliding/img/log.svg') }}" class="image" alt="" />
             </div>
             <div class="panel right-panel">
                 <div class="content">
-                    <h3>One of us ?</h3>
+                    <h3>Sudah Punya Akun?</h3>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Nostrum laboriosam ad deleniti.
+                        Apakah anda sudah punya akun?
                     </p>
                     <button class="btn transparent" id="sign-in-btn">
-                        Sign in
+                        Masuk
                     </button>
                 </div>
                 <img src="{{ asset('sliding/img/register.svg') }}" class="image" alt="" />
